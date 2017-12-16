@@ -4,17 +4,18 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="style.css"
+    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash|Bungee+Shade|Calligraffitti|Itim|Satisfy" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
-    <title>ClusterFork!</title>
+    <title>What the Fork!</title>
   </head>
   <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" >
     <img src="http://nourishingontario.ca/wp-content/uploads/2013/04/ftf1.png" width="30" height="30" alt="">
-    <a class="navbar-brand" href="#">ClusterFork</a>
-      <!--
+    <a class="navbar-brand" href="#">WTF</a>
+
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -23,198 +24,103 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
+          <a class="nav-link" href="#">Which APIs?</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
+          <a class="nav-link" href="#">Documentation</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Tech Talk</a>
         </li>
       </ul>
-      -->
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button class="button" style="width:75px" type="submit">Search</button>
       </form>
     </div>
+    </nav>
 
-  </nav>
-
+<!--Jumbotron-->
 <center>
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
-      <h1 class="display-3"><img src="http://nourishingontario.ca/wp-content/uploads/2013/04/ftf1.png" width="75" height="75" alt="">ClusterFork</h1>
-      <p class="lead">The World's leading Recipe Finder!</p>
+      <h1 class="display-3" style="font-family: 'Bungee Shade', cursive;"><img src="http://nourishingontario.ca/wp-content/uploads/2013/04/ftf1.png" width="75" height="75" alt="">What the Fork!</h1>
+      <p class="lead" style="font-family: 'Calligraffitti', cursive; font-size: 200%;">The World's leading Recipe Finder!</p>
     </div>
   </div>
-
+</center>
 
 
 <div class="container">
   <div class="row">
-  <div class="col-md-5">
+  <div class="col-md-4">
+    <center>
     <article>
       <div id="holder">
-      </div>
       <p>Drag & Drop Your Image Here</p>
+      <img id="blah" src="http://placehold.it/180" alt="your image" />
+      </div>
       <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
       <p id="filereader">File API & FileReader API not supported</p>
       <p id="formdata">XHR2's FormData is not supported</p>
       <p id="progress">XHR2's upload progress isn't supported</p>
+      <input type='file' onchange="readURL(this);" />
+
     </article>
+    </center>
+  </div>
+
+  <!--Buttons-->
+    <div class="col-md-2">
+    </br>
+      <button class="button" type="button">Click Me!</button>
+    </br>
+    </br>
+      <button class="button" type="button">Click Me!</button>
+    </br>
+    </br>
+      <button class="button" type="button">Click Me!</button>
+    </br>
+    </br>
+      <button class="button" type="button">Click Me!</button>
+    </br>
+    </br>
+      <button class="button" type="button">Click Me!</button>
+    </div>
+
+<!--Recipe-->
+<div class="col-md-3">
+  <div id="holder" style="width:100%;height:100%;">
+          <center>
+            <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap" style="width:180px; height:180px;">
+            <div class="card-body">
+              <h4 class="card-title" style="font-family:'Berkshire Swash', cursive; font-size: 200%;">Card title</h4>
+              <p class="card-text" style="font-family: 'Itim', cursive;font-size: 100%;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="button">Go somewhere</a>
+          </center>
+        </div>
+      </div>
+
+    <div class="col-md-3">
+      <div id="holder" style="width:100%;height:100%;">
+          <center>
+            <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap" style="width:180px; height:180px;">
+            <div class="card-body">
+              <h4 class="card-title" style="font-family:'Berkshire Swash', cursive; font-size: 200%;">Card title</h4>
+              <p class="card-text" style="font-family: 'Itim', cursive; font-size: 100%;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="button">Go somewhere</a>
+          </center>
+        </div>
+      </div>
+    </div>
+
   </div>
   </div>
-</div>
 
-
-</center>
-
-  <script>
-  function drop_handler(ev) {
-    console.log("Drop");
-    ev.preventDefault();
-    // If dropped items aren't files, reject them
-    var dt = ev.dataTransfer;
-    if (dt.items) {
-      // Use DataTransferItemList interface to access the file(s)
-      for (var i=0; i < dt.items.length; i++) {
-        if (dt.items[i].kind == "file") {
-          var f = dt.items[i].getAsFile();
-          console.log("... file[" + i + "].name = " + f.name);
-        }
-      }
-    } else {
-      // Use DataTransfer interface to access the file(s)
-      for (var i=0; i < dt.files.length; i++) {
-        console.log("... file[" + i + "].name = " + dt.files[i].name);
-      }
-    }
-  }
-  function dragover_handler(ev) {
-    console.log("dragOver");
-    // Prevent default select and drag behavior
-    ev.preventDefault();
-  }
-  function dragend_handler(ev) {
-    console.log("dragEnd");
-    // Remove all of the drag data
-    var dt = ev.dataTransfer;
-    if (dt.items) {
-      // Use DataTransferItemList interface to remove the drag data
-      for (var i = 0; i < dt.items.length; i++) {
-        dt.items.remove(i);
-      }
-    } else {
-      // Use DataTransfer interface to remove the drag data
-      ev.dataTransfer.clearData();
-    }
-  }
-
-  var holder = document.getElementById('holder'),
-    tests = {
-      filereader: typeof FileReader != 'undefined',
-      dnd: 'draggable' in document.createElement('span'),
-      formdata: !!window.FormData,
-      progress: "upload" in new XMLHttpRequest
-    },
-    support = {
-      filereader: document.getElementById('filereader'),
-      formdata: document.getElementById('formdata'),
-      progress: document.getElementById('progress')
-    },
-    acceptedTypes = {
-      'image/png': true,
-      'image/jpeg': true,
-      'image/gif': true
-    },
-    progress = document.getElementById('uploadprogress'),
-    fileupload = document.getElementById('upload');
-
-"filereader formdata progress".split(' ').forEach(function (api) {
-  if (tests[api] === false) {
-    support[api].className = 'fail';
-  } else {
-    // FFS. I could have done el.hidden = true, but IE doesn't support
-    // hidden, so I tried to create a polyfill that would extend the
-    // Element.prototype, but then IE10 doesn't even give me access
-    // to the Element object. Brilliant.
-    support[api].className = 'hidden';
-  }
-});
-
-function previewfile(file) {
-  if (tests.filereader === true && acceptedTypes[file.type] === true) {
-    var reader = new FileReader();
-    reader.onload = function (event) {
-      var image = new Image();
-      image.src = event.target.result;
-      image.width = 250; // a fake resize
-      holder.appendChild(image);
-    };
-
-    reader.readAsDataURL(file);
-  }  else {
-    holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
-    console.log(file);
-  }
-}
-
-function readfiles(files) {
-    debugger;
-    var formData = tests.formdata ? new FormData() : null;
-    for (var i = 0; i < files.length; i++) {
-      if (tests.formdata) formData.append('file', files[i]);
-      previewfile(files[i]);
-    }
-
-    // now post a new XHR request
-    if (tests.formdata) {
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/devnull.php');
-      xhr.onload = function() {
-        progress.value = progress.innerHTML = 100;
-      };
-
-      if (tests.progress) {
-        xhr.upload.onprogress = function (event) {
-          if (event.lengthComputable) {
-            var complete = (event.loaded / event.total * 100 | 0);
-            progress.value = progress.innerHTML = complete;
-          }
-        }
-      }
-
-      xhr.send(formData);
-    }
-}
-
-if (tests.dnd) {
-  holder.ondragover = function () { this.className = 'hover'; return false; };
-  holder.ondragend = function () { this.className = ''; return false; };
-  holder.ondrop = function (e) {
-    this.className = '';
-    e.preventDefault();
-    readfiles(e.dataTransfer.files);
-  }
-} else {
-  fileupload.className = 'hidden';
-  fileupload.querySelector('input').onchange = function () {
-    readfiles(this.files);
-  };
-}
-  </script>
+  <script src="script.js"></script>
   <script src="assets/js/watson.js"></script>
   <script src="nodehelloworld.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.js"></script>
