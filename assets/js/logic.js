@@ -15,34 +15,18 @@
 function drop_handler(ev) {
   console.log("Drop");
   ev.preventDefault();
+  console.log(ev.dataTransfer.files);
   // If dropped items aren't files, reject them
-  var dt = ev.dataTransfer;
-  if (dt.items) {
+  var dt = ev.dataTransfer.files;
+  if (dt.length) 
+  {
     // Use DataTransferItemList interface to access the file(s)
-    for (var i=0; i < dt.items.length; i++) {
-      if (dt.items[i].kind == "file") {
-        var f = dt.items[i].getAsFile();
-        console.log("1 file[" + i + "].name = " + f.name);
-
-
-
-var imageToUse = f.name;
-
-var ref = firebase.database().ref().child('node-client');
-var logsRef= ref.child('images');
-var messagesRef=ref.child('messages');
-
-
-logsRef.child('TestingImage').set(imageToUse);
-      }
-    }
-  } else {
-    // Use DataTransfer interface to access the file(s)
-    for (var i=0; i < dt.files.length; i++) {
-      console.log("2 file[" + i + "].name = " + dt.files[i].name);
-    }  
+        console.log("imgur function");
+        imgurUpload(dt);
   }
 }
+
+
 
 function dragover_handler(ev) {
   console.log("dragOver");
@@ -89,7 +73,81 @@ logsRef1.on('value', function(snap) {
       var goodData = Object.values(y)[j];
       $("#postDataHere").append("<p>"+ tag + goodData + "</p>"); 
       tag = "Score :"
-
+      if (i === 0 && j=== 0)
+      {
+        console.log("here is the good date" + goodData);
+        firebase.database().ref('node-client/yummly').set(goodData);
+      }
     }
   }
 });
+
+
+
+
+function imgurUpload($files)
+{
+
+  console.log("$files is " + JSON.stringify($files));
+  if ($files.length) 
+  {
+    // Reject big files
+    if ($files[0].size > $(this).data("max-size") * 1024) 
+    {
+      console.log("Please select a smaller file");
+      return false;
+    }
+
+    // Begin file upload
+    console.log("Uploading file to Imgur..");
+
+    // Replace ctrlq with your own API key
+    var apiUrl = 'https://api.imgur.com/3/image';
+    var apiKey = 'c70f5706c082422';
+
+    var settings = {
+      async: false,
+      crossDomain: true,
+      processData: false,
+      contentType: false,
+      type: 'POST',
+      url: apiUrl,
+      headers: {
+        Authorization: 'Client-ID ' + apiKey,
+        Accept: 'application/json'
+      },
+      mimeType: 'multipart/form-data'
+    };
+
+    var formData = new FormData();
+    formData.append("image", $files[0]);
+    settings.data = formData;
+
+    // Response contains stringified JSON
+    // Image URL available at response.data.link
+    $.ajax(settings).done(function(response) {
+      var str = JSON.parse(response).data.link; 
+      //str = JSON.stringify(str); 
+     // imageToUse = str.split("\/").pop();
+      imageToUse = str;
+      console.log(imageToUse);
+      firebase.database().ref().child('node-client').child('images').child('TestingImage').set(imageToUse);
+      console.log(JSON.parse(response).data.link);
+    });
+  }
+
+}
+
+
+
+
+$("document").ready(function() {
+
+  $('input[type=file]').on("change", function() {
+    var files = $(this).get(0).files;
+    console.log(files);
+    imgurUpload(files);
+  });
+});
+
+

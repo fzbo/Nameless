@@ -14,9 +14,9 @@ var visual_recognition = watson.visual_recognition({
   version: 'v3',
   version_date: '2016-05-20'
 });
-var imageToUse = 'demo-image.jpg';
+var imageToUse = 'https://i.imgur.com/a9RRkXn.jpg';
 var params = {
-  images_file: fs.createReadStream(imageToUse)
+  parameters: {'url': imageToUse}
 };
 
 visual_recognition.classify(params, function(err, res) {
@@ -34,25 +34,30 @@ var messageRef = messagesRef.set(message);
 logsRef.child('TestingImage').set(imageToUse);
 
 logsRef.orderByKey().limitToLast(1).on('child_added', function(snap) {
-	console.log('added', snap.val());
+  console.log('added', snap.val());
 });
 
 logsRef.on('child_removed', function(snap) {
-	console.log('removed', snap.val());
+  console.log('removed', snap.val());
 });
 
 logsRef.on('child_changed', function(snap) {
-	imageToUse = snap.val();
+  imageToUse = snap.val();
 watsoncheck(imageToUse);
 
-	console.log(imageToUse);
+  console.log(imageToUse);
 
-	console.log('changed', snap.val());
+  console.log('changed', snap.val());
 });
 logsRef.on('value', function(snap) {
-	console.log('value', snap.val());
+  console.log('value', snap.val());
 });
 });
+
+
+
+
+
 
 
 //
@@ -68,9 +73,13 @@ var visual_recognition = watson.visual_recognition({
   version: 'v3',
   version_date: '2016-05-20'
 });
+   
+
 var params = {
-  images_file: fs.createReadStream(images)
-};	
+  parameters: {'url':images}
+};
+
+
 visual_recognition.classify(params, function(err, res) {
   if (err)
     console.log(err); 
@@ -80,13 +89,9 @@ console.log(messageWatson);
 var message = {text: messageWatson, timestamp: new Date().toString()};
 var ref = firebase.database().ref().child('node-client');
 var logsRef= ref.child('images');
-var messagesRef=ref.child('messages');
-var messageRef = messagesRef.set(message);
-
 logsRef.child('TestingImage').set(images);
+var messagesRef=ref.child('messages').set(message);
 });
 
 }
-
-
 
