@@ -6,13 +6,14 @@
 	<title>What the Fork!</title>
 </head>
 <body>
+	<!-- camera capture starts here -->
+	<video id="player" controls autoplay></video>
+	<button id="capture">Capture</button>
+	<canvas id="canvas" width=320 height=240></canvas>
+	<!-- camera capture ends here -->
 	<form id="imgur">
 	  <input type="file" class="imgur" accept="image/*" data-max-size="5000"/>
 	</form>
-
-	
-<input type="file">
-<input type="file" id="myFile">
 
 <div id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);" ondragend="dragend_handler(event);">
   <strong>Drag one or more files to this Drop Zone ...</strong>

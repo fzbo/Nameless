@@ -138,7 +138,51 @@ function imgurUpload($files)
 
 }
 
+function imgurUploadCamera($files)
+{
 
+  console.log("$files is " + JSON.stringify($files));
+
+
+    // Begin file upload
+    console.log("Uploading file to Imgur..");
+
+    // Replace ctrlq with your own API key
+    var apiUrl = 'https://api.imgur.com/3/image';
+    var apiKey = 'c70f5706c082422';
+
+    var settings = {
+      async: false,
+      crossDomain: true,
+      processData: false,
+      contentType: false,
+      type: 'POST',
+      url: apiUrl,
+      headers: {
+        Authorization: 'Client-ID ' + apiKey,
+        Accept: 'application/json'
+      },
+      mimeType: 'multipart/form-data'
+    };
+
+    var formData = new FormData();
+    formData.append("image", $files);
+    settings.data = formData;
+
+    // Response contains stringified JSON
+    // Image URL available at response.data.link
+    $.ajax(settings).done(function(response) {
+      var str = JSON.parse(response).data.link; 
+      //str = JSON.stringify(str); 
+     // imageToUse = str.split("\/").pop();
+      imageToUse = str;
+      console.log(imageToUse);
+      firebase.database().ref().child('node-client').child('images').child('TestingImage').set(imageToUse);
+      console.log(JSON.parse(response).data.link);
+    });
+  
+
+}
 
 
 $("document").ready(function() {
@@ -149,5 +193,34 @@ $("document").ready(function() {
     imgurUpload(files);
   });
 });
+
+
+// ==================================CAMERA CAPTURE===================================//
+  const player = document.getElementById('player');
+  const canvas = document.getElementById('canvas');
+  const context = canvas.getContext('2d');
+  const captureButton = document.getElementById('capture');
+
+  const constraints = {
+    video: true,
+  };
+
+  captureButton.addEventListener('click', () => {
+    // Draw the video frame to the canvas.
+    context.drawImage(player, 0, 0, canvas.width, canvas.height);
+    var dataURL = canvas.toDataURL();
+    dataURL = dataURL.replace(/data:image\/png;base64,/i, ''); // Use this line because imgur doesn't accet base64
+    console.log(dataURL);
+    imgurUploadCamera(dataURL);
+    // Stop all video streams.
+    player.srcObject.getVideoTracks().forEach(track => track.stop());
+  });
+
+  // Attach the video stream to the video element and autoplay.
+  navigator.mediaDevices.getUserMedia(constraints)
+    .then((stream) => {
+      player.srcObject = stream;
+    });
+//====================================CAMERA CAPTURE ENDS ===============================//
 
 
