@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash|Bungee+Shade|Calligraffitti|Itim|Satisfy" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <title>What the Fork!</title>
+  </head>
+  <body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+    <img src="assets/img/WTF-logo.png" width="30" height="30" alt="">
+    <a class="navbar-brand" href="#">WTF</a>
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Which APIs?</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Documentation</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Tech Talk</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="button" style="width:75px" type="submit">Search</button>
+      </form>
+    </div>
+    </nav>
+
+<!--Jumbotron-->
+<center>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-3" style="font-family: 'Bungee Shade', cursive;"><img src="assets/img/WTF-logo.png" width="75" height="75" alt="">What the Fork!</h1>
+      <p class="lead" style="font-family: 'Calligraffitti', cursive; font-size: 200%;">The World's leading Recipe Finder!</p>
+    </div>
+  </div>
+</center>
+
+
+<div class="container">
+  <div class="row">
+  <div class="col-md-4">
+    <center>
+    <article id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);" ondragend="dragend_handler(event);">
+      <div id="holder">
+      <p>Drag & Drop Your Image Here</p>
+        <!-- camera capture starts here -->
+          <video id="player" controls autoplay></video>
+          <button id="capture">Capture</button>
+          <canvas id="canvas" width=320 height=240></canvas>
+          <!-- camera capture ends here -->
+      <img id="blah" src="http://placehold.it/180" alt="your image" />
+      </div>
+      <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
+      <p id="filereader">File API & FileReader API not supported</p>
+      <p id="formdata">XHR2's FormData is not supported</p>
+      <p id="progress">XHR2's upload progress isn't supported</p>
+
+<!-- ================================================================= -->
+      <!-- VERY IMPORTANT DONT EDIT THIS BUTTON  BECAUSE IT WILL UPLOAD ITEMS TO IMGUR -->
+      <form id="imgur">
+        <input type="file" class="imgur" accept="image/*" data-max-size="5000" onchange="readURL(this);"/>
+      </form>
+      <!-- END OF VERY IMPORTANT IMGUR BUTTON-->
+<!-- ================================================================= -->
+
+    </article>
+    </center>
+  </div>
+
+  <!--Buttons-->
+    <div class="col-md-2" id="ingredientList">
+
+    </div>
+
+<!--Recipe-->
+<div class="col-md-3">
+  <div id="holder" style="width:100%;height:100%;">
+          <center>
+            <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap" style="width:180px; height:180px;">
+            <div class="card-body">
+              <h4 class="card-title" style="font-family:'Berkshire Swash', cursive; font-size: 200%;">Card title</h4>
+              <p id="shoppingList"class="card-text" style="font-family: 'Itim', cursive;font-size: 100%;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="button">Go somewhere</a>
+          </center>
+        </div>
+      </div>
+
+    <div class="col-md-3">
+      <div id="holder" style="width:100%;height:100%;">
+          <center>
+            <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap" style="width:180px; height:180px;">
+            <div class="card-body">
+              <h4 class="card-title" style="font-family:'Berkshire Swash', cursive; font-size: 200%;">Card title</h4>
+              <p class="card-text" style="font-family: 'Itim', cursive; font-size: 100%;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="button">Go somewhere</a>
+          </center>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+
+
+<div id="postDataHere"></div>
+
+
+
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+<script src="assets/js/logic.js"></script>
+
+
+
+
+  </body>
+</html>

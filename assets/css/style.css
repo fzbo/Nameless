@@ -1,0 +1,58 @@
+.jumbotron {
+    position: relative;
+    background-image:url('http://gen4congress.com/wp-content/uploads/2017/08/strikingly-design-wood-floors-background-1-dominion-payroll.jpg');
+    width: 100%;
+    height: 100%;
+    border-style: solid;
+    outline-style: solid;
+    outline-color: black;
+    background-size: cover;
+    overflow: hidden;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.footer {
+    position: relative;
+    width: 100%;
+    height: 10%;
+    overflow: hidden;
+    height:100px;
+}
+
+.button {
+  background-image:url('https://lumberliquidators.scene7.com/is/image/LumberLiquidators/175x175/williamsburg%20butcher%20block%20co.%201%2012%20x%2025%20x12%20lft%20american%20cherry%20butcher%20block~chbb12-od_sw.jpg');
+  width: 100%;
+  height: 15%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  color: white;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+#holder { border: 10px dashed #ccc; width: 300px; min-height: 300px; margin: 20px auto;}
+#holder.hover { border: 10px dashed #0c0; }
+#holder img { display: block; margin: 10px auto; }
+#holder p { margin: 10px; font-size: 14px; }
+progress { width: 100%; }
+progress:after { content: '%'; }
+.fail { background: #c00; padding: 2px; color: #fff; }
+.hidden { display: none !important;}
+
+img{
+  max-width:220px;
+}
+input[type=file]{
+padding:10px;
+}
+
+
+#player 
+{
+  width: 100%;
+}
+
+#canvas
+{
+  width: 100%;
+}
