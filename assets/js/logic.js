@@ -1,3 +1,13 @@
+var numOfIngredients = 0;  
+var ingredientList;
+var finalIngredientList = [];
+var counter=0;
+var counteroutside = 0;
+var counterinside = 0;
+var counterToAddData = 0; // this counter will prevent a duplicate value to fill the yummly database due the on("value") duplicate scans on database
+var buttonColors = ["primary","secondary","success","danger","warning","info","light"]; // button colors from bootstrap layout
+var color = 0;
+var ingredientList = [];
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyDjsbjIcD3GTuLS_1okzz-OGxDdJ3QNpcM",
@@ -8,8 +18,6 @@
     messagingSenderId: "182993753568"
   };
   firebase.initializeApp(config);
-
-
 
 
 function drop_handler(ev) {
@@ -50,41 +58,96 @@ function dragend_handler(ev) {
 }
 
 
-
-var ref = firebase.database().ref().child('node-client');
-var logsRef1= ref.child('messages');
-logsRef1.on('value', function(snap) {
-  $("#postDataHere").html("");
-  console.log(Object.values(snap.val()));
-  var y = Object.values(snap.val());
-  console.log("console.log this: " +y);
-  y= Object.values(y[0])[1][0];
-  y= Object.values(y)[0];
-  y= Object.values(y)[0];
-  lastLayer= Object.values(y)[0];
-  console.log(lastLayer);
-  for (var i = 0; i < lastLayer.length;i++)
+function addYummly()
+{
+  var y = 0;
+  console.log("checking how many times inside" + counterinside);
+  var ref = firebase.database().ref().child('node-client');
+  var logsRef1= ref.child('messages');
+  var lastLayer;
+  logsRef1.on('value', function(snap) 
   {
-    var tag = "Keyword :";
-    y=Object.values(lastLayer[i]);
-    for (var j=0; j<2;j++)
+    ++counterToAddData;
+    if (snap) //checking if snapshot is not null
     {
-      console.log(Object.values(y)[j]);
-      var goodData = Object.values(y)[j];
-      $("#postDataHere").append("<p>"+ tag + goodData + "</p>"); 
-      tag = "Score :"
-      if (i === 0 && j=== 0)
+      console.log("checking how many times outside" + counteroutside);
+      $("#postDataHere").html("");
+      event.preventDefault();
+      console.log(Object.values(snap.val()));
+      y = Object.values(snap.val());
+      console.log("console.log this: " +y);
+      y= Object.values(y[0])[1][0];
+      y= Object.values(y)[0];
+      y= Object.values(y)[0];
+      lastLayer= Object.values(y)[0];
+      console.log(lastLayer);
+      for (var i = 0; i < lastLayer.length;i++)
       {
-        console.log("here is the good date" + goodData);
-        firebase.database().ref('node-client/yummly').set(goodData);
+        
+        var tag = "Keyword :";
+        y=Object.values(lastLayer[i]);
+        for (var j=0; j<2;j++)
+        {
+          console.log(Object.values(y)[j]);
+          var goodData = Object.values(y)[j];
+          console.log('counter to add data' + counterToAddData);
+          if (i===0 && j===0 && counterToAddData===2)
+          {
+            addToDataBase(goodData, ref)
+          }
+          $("#postDataHere").append("<p>"+ tag + goodData + "</p>"); 
+          tag = "Score :"
+        }
       }
     }
+  });
+
+}
+
+
+// this function will add the last uploaded ingredient to the database
+function addToDataBase(goodData1, ref1)
+{
+  counter++;
+  console.log("passed " + counter + " times in " + goodData1);
+  console.log("here is the good date" + goodData1);
+  ref1.child('yummly').once('value').then(function(snapshot){
+  console.log("inside firebase" + snapshot.numChildren());
+  numOfIngredients= snapshot.numChildren();
+  ingredientList[numOfIngredients] =goodData1; // this line will add the ingredient to the array in the same position as in the database
+  console.log("counter" + numOfIngredients);
+  console.log(ingredientList);
+  firebase.database().ref('node-client/yummly/' + "ingredient" + numOfIngredients).set(goodData1);
+  addButton(goodData1);
+
+  });        
+}
+
+// addButton will add a button when user add a picture.
+function addButton(goodData2)
+{
+
+  var buttonName = goodData2;
+  finalIngredientList.push(buttonName);
+  
+  console.log(" list of ingredients" + finalIngredientList);
+  $("#ingredientList").append('<button'+ ' id="' + buttonName + '"' +' class="btn btn-' + buttonColors[color]+ ' m-3">' + buttonName +'</button>')
+  color++;
+  if (color === 7)
+  {
+    color=0;
   }
-});
 
 
+}
 
+// function addShoppingList()
+// {
 
+//   $("#shoppingList").html()
+// }
+
+// imgurUpload will upload the image when submitted or drag and dropped or the picture taken 
 function imgurUpload($files)
 {
 
@@ -135,6 +198,7 @@ function imgurUpload($files)
       console.log(JSON.parse(response).data.link);
     });
   }
+  addYummly();
 
 }
 
@@ -181,16 +245,17 @@ function imgurUploadCamera($files)
       console.log(JSON.parse(response).data.link);
     });
   
-
+  addYummly();
 }
 
 
 $("document").ready(function() {
-
+event.preventDefault();
   $('input[type=file]').on("change", function() {
     var files = $(this).get(0).files;
     console.log(files);
     imgurUpload(files);
+    counterToAddData= 0;
   });
 });
 
@@ -209,9 +274,10 @@ $("document").ready(function() {
     // Draw the video frame to the canvas.
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
     var dataURL = canvas.toDataURL();
-    dataURL = dataURL.replace(/data:image\/png;base64,/i, ''); // Use this line because imgur doesn't accet base64
+    dataURL = dataURL.replace(/data:image\/png;base64,/i, ''); // Use this line because imgur doesn't accet base64 and we need for watson to work
     console.log(dataURL);
     imgurUploadCamera(dataURL);
+   // addYummly(); // will add the resulting image keyword to yummly
     // Stop all video streams.
     player.srcObject.getVideoTracks().forEach(track => track.stop());
   });
@@ -222,5 +288,120 @@ $("document").ready(function() {
       player.srcObject = stream;
     });
 //====================================CAMERA CAPTURE ENDS ===============================//
+
+
+
+
+//==================================================================//
+//==================================================================//
+//==================================================================//
+
+var holder = document.getElementById('holder'),
+  tests = {
+    filereader: typeof FileReader != 'undefined',
+    dnd: 'draggable' in document.createElement('span'),
+    formdata: !!window.FormData,
+    progress: "upload" in new XMLHttpRequest
+  },
+  support = {
+    filereader: document.getElementById('filereader'),
+    formdata: document.getElementById('formdata'),
+    progress: document.getElementById('progress')
+  },
+  acceptedTypes = {
+    'image/png': true,
+    'image/jpeg': true,
+    'image/gif': true
+  },
+  progress = document.getElementById('uploadprogress'),
+  fileupload = document.getElementById('upload');
+
+"filereader formdata progress".split(' ').forEach(function (api) {
+if (tests[api] === false) {
+  support[api].className = 'fail';
+} else {
+  support[api].className = 'hidden';
+}
+});
+
+function previewfile(file) {
+if (tests.filereader === true && acceptedTypes[file.type] === true) {
+  var reader = new FileReader();
+  reader.onload = function (event) {
+    var image = new Image();
+    image.src = event.target.result;
+    image.width = 250; // a fake resize
+    holder.appendChild(image);
+  };
+
+  reader.readAsDataURL(file);
+}  else {
+  holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
+  console.log(file);
+}
+}
+
+function readfiles(files) {
+  debugger;
+  var formData = tests.formdata ? new FormData() : null;
+  for (var i = 0; i < files.length; i++) {
+    if (tests.formdata) formData.append('file', files[i]);
+    previewfile(files[i]);
+  }
+
+  // now post a new XHR request
+  if (tests.formdata) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/devnull.php');
+    xhr.onload = function() {
+      progress.value = progress.innerHTML = 100;
+    };
+
+    if (tests.progress) {
+      xhr.upload.onprogress = function (event) {
+        if (event.lengthComputable) {
+          var complete = (event.loaded / event.total * 100 | 0);
+          progress.value = progress.innerHTML = complete;
+        }
+      }
+    }
+
+    xhr.send(formData);
+  }
+}
+
+if (tests.dnd) {
+holder.ondragover = function () { this.className = 'hover'; return false; };
+holder.ondragend = function () { this.className = ''; return false; };
+holder.ondrop = function (e) {
+  this.className = '';
+  e.preventDefault();
+  readfiles(e.dataTransfer.files);
+
+}
+} else {
+fileupload.className = 'hidden';
+fileupload.querySelector('input').onchange = function () {
+  readfiles(this.files);
+};
+}
+
+function readURL(input) {
+         if (input.files && input.files[0]) {
+             var reader = new FileReader();
+
+             reader.onload = function (e) {
+                 $('#blah')
+                     .attr('src', e.target.result);
+             };
+
+             reader.readAsDataURL(input.files[0]);
+         }
+     }
+
+
+//==================================================================//
+//==================================================================//
+//==================================================================//
 
 
