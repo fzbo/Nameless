@@ -11,7 +11,9 @@ Application provides a simple user interface that allows the user to drag and dr
 What are the features, advantages and benefits of using WTF?
 
 Feature: Having the freedom of being able to find recipes on the go when your out and about.
+
 Advantage: You can take a picture of anything and on the spot get information specific to your photo.
+
 Benefit: Instead to doing random searches looking for ingredients and recipes, What The Targets your photo by only generating information based on photo submitted.
 
 Technical Specs
