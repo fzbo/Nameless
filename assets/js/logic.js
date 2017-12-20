@@ -415,7 +415,7 @@ function wikipedia(keyword)
 {
   $.ajax({
   type: "GET",
-  url: "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=" + keyword + "&callback=?",
+  url: "https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=" + keyword + "&callback=?",
   contentType: "application/json; charset=utf-8",
   async: false,
   dataType: "json",
