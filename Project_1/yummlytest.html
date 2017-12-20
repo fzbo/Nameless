@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WTF</title>
+      <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--   <link rel="stylesheet" type="text/css" href="./assets/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/style.css">   -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  </head>
+
+  <body>
+    <div class="container-fluid col-lg-12 frameImage">
+      <div class="container col-md-8">
+  <!-- ***********  ROW-00: (header)  *********** -->
+        <div class="row">
+          <header class="jumbotron center-text">
+            <h1>What The Fork???</h1>
+            <h5>Ever wandered around a farmer's market and wondered, What The Fork (WTF) is that?!? Well wonder no more...and now you can not only impress your friends with what it's called, but NOW you can even blow their minds by preparing some unique cuisine starring that strange, new ingredient. </h5>
+          </header>
+        </div>
+  <!-- ***********  ROW-01: (response & buttons)  *********** -->
+        <div class="row">
+          <div class="recipeDisplay">                    
+          </div>
+          <div>
+            <button id="recipe">Recipe Search</button>
+            <button id="ingredient">Ingredient Search</button>
+            <button id="cuisine">Cuisine Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+
+          $("#cuisine").on("click", function() {
+           console.log("here inside");
+            var foodImageItem = ["salt","beef","apple"] ; //hardset variable until Watson API is ready set image-data
+            var finalQuery=[];
+            for (var i=0;i<foodImageItem.length;i++)
+            {
+              var queryImageSearch = "&allowedIngredient[]=" + foodImageItem[i]; //search parameter + variable will be set by Watson API
+              finalQuery+= queryImageSearch;
+            }
+            console.log(finalQuery);
+            //*************************** 3 different searches ***************************
+            var queryRecipe = "recipes?";
+            // var queryIngredient = "metadata/ingredient?"; // Allowed ingredient and meta ingredient might not work together
+            // var queryCuisine = "metadata/cuisine?";  // use Cuisine if we want to limit user query to specific  cuisine
+            // *************************** important: need to hide in gitignore file ***************************
+            var monkeyPaw = "_app_id=12dafe86&_app_key=ba62bbc8677a60fac1bc16abe00dbf86";
+            
+            //*************************** URL concatenation ***************************
+            var queryURL = "https://api.yummly.com/v1/api/" + queryRecipe + monkeyPaw + finalQuery;
+
+            // function imageSearchInfo(){} <<<<<<<<<< may need to put inside another function? <<<<<<<<<<
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+                
+            }).done(function(response) {
+                var results = response;
+                console.log(results);
+                console.log(results.matches[0].ingredients);
+                var ingLength = results.matches;
+                for (var i=0; i<ingLength.length;i++)
+                {
+                  var ingredients = results.matches[i].ingredients; // zero for first recipe only
+                  var recipePicture = results.matches[i].imageUrlsBySize[90];
+                  var title = results.matches[i].recipeName;
+                  var id = results.matches[i].id;
+                  console.log(recipePicture);
+                  createRecipeList(ingredients, recipePicture,title,id);
+               }
+            });
+          });
+        });
+
+
+        function createRecipeList(ingredients,recipePicture, title,id)
+        {
+          //holder-recipe
+          $(".recipeDisplay").append("<div><H2>"+ title +"</H2></div>");
+          $(".recipeDisplay").append("<div><H1>https://www.yummly.com/#recipe/"+ id +"</H1></div>");
+          $(".recipeDisplay").append("<img src='"+recipePicture + "''>");
+          for (var i =0;i< ingredients.length;i++)
+          {
+            $(".recipeDisplay").append("<div>"+ ingredients[i] +"</div>");
+          }
+        }
+
+
+      </script>
+  </body>
+</html>

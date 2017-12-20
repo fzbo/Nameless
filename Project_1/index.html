@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <!-- <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
     <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash|Bungee+Shade|Calligraffitti|Itim|Lobster|Satisfy" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" />
+
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+      <link rel="stylesheet" href="./style.css" />
     <title>What the Fork!</title>
   </head>
   <body>
@@ -79,92 +80,112 @@
       <input type='file' onchange="readURL(this);" />
 
     </article>
-    </center>
+  </center>
   </div>
 
   <!--Buttons-->
     <div class="col-md-2">
     </br>
-      <button class="button" type="button">Click Me!</button>
-    </br>
-    </br>
-      <button class="button" type="button">Click Me!</button>
-    </br>
-    </br>
-      <button class="button" type="button">Click Me!</button>
-    </br>
-    </br>
-      <button class="button" type="button">Click Me!</button>
-    </br>
-    </br>
-      <button class="button" type="button">Click Me!</button>
-    </br>
-    </br>
-      <button class="button" type="button">Click Me!</button>
+      <button class="button" id="cuisine" type="button">Search Recipes</button>
 
     </div>
-
+<!--Buttons
     <div class="col-md-6">
       <div id="holder" style="width:100%;height:76%;">
         <iframe height="100%" width="100%" src="demo_iframe.htm" name="iframe_a"></iframe>
       </div>
-
+-->
   </div>
 
 
 <!--Recipe-->
-    <div class="col-md-3">
-      <div id="holder-recipe">
-        <center>
-          <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="espn.com" class="button">Go somewhere</a>
-        </center>
+    <div class="col-md-3" id="dup">
+      <div class="recipeDisplay" id="holderRecipe">
+
       </div>
     </div>
 
-    <div class="col-md-3">
-      <div id="holder-recipe">
-          <center>
-            <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="button">Go somewhere</a>
-          </center>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div id="holder-recipe">
-            <center>
-              <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap">
-              <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="button">Go somewhere</a>
-            </center>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div id="holder-recipe">
-              <center>
-                <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap">
-                <div class="card-body">
-                  <h4 class="card-title">Card title</h4>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="button">Go somewhere</a>
-              </center>
-            </div>
-          </div>
     </div>
-
   </div>
   </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+   var counterId=0;
+    $(document).ready(function(){
+
+      $("#cuisine").on("click", function() {
+       console.log("here inside");
+        var foodImageItem = ["salt","beef","apple"] ; //hardset variable until Watson API is ready set image-data
+        var finalQuery=[];
+        for (var i=0;i<foodImageItem.length;i++)
+        {
+          var queryImageSearch = "&allowedIngredient[]=" + foodImageItem[i]; //search parameter + variable will be set by Watson API
+          finalQuery+= queryImageSearch;
+        }
+        console.log(finalQuery);
+        //*************************** 3 different searches ***************************
+        var queryRecipe = "recipes?";
+        // var queryIngredient = "metadata/ingredient?"; // Allowed ingredient and meta ingredient might not work together
+        // var queryCuisine = "metadata/cuisine?";  // use Cuisine if we want to limit user query to specific  cuisine
+        // *************************** important: need to hide in gitignore file ***************************
+        var monkeyPaw = "_app_id=12dafe86&_app_key=ba62bbc8677a60fac1bc16abe00dbf86";
+
+        //*************************** URL concatenation ***************************
+        var queryURL = "https://api.yummly.com/v1/api/" + queryRecipe + monkeyPaw + finalQuery;
+
+        // function imageSearchInfo(){} <<<<<<<<<< may need to put inside another function? <<<<<<<<<<
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+
+        }).done(function(response) {
+            var results = response;
+            console.log(results);
+            console.log(results.matches[0].ingredients);
+            var ingLength = results.matches;
+            for (var i=0; i<ingLength.length;i++)
+            {
+              var ingredients = results.matches[i].ingredients; // zero for first recipe only
+              var recipePicture = results.matches[i].imageUrlsBySize[90];
+              var title = results.matches[i].recipeName;
+              var id = results.matches[i].id;
+              console.log(recipePicture);
+              createRecipeList(ingredients, recipePicture,title,id);
+           }
+        });
+      });
+    });
+
+
+    function createRecipeList(ingredients,recipePicture, title,id)
+    {
+      //holder-recipe
+      console.log("inside the method!!");
+      var divToCreate = $("body").append( "<div class='col-md-3 dup holderRecipe id=recipe"+counterId+"'>"+
+
+      "</div>"+
+
+      "</div>"+
+      "</div>");
+      counterId++;
+
+      console.log(divToCreate);
+
+      $(`#recipe${counterId}`).append("<H4>"+ title +"</H4>");
+      $(`#recipe${counterId}`).append("<p>https://www.yummly.com/#recipe/"+ id +"</p>");
+      $(`#recipe${counterId}`).append("<img src='"+recipePicture + "''>");
+      for (var i =0;i< ingredients.length;i++)
+      {
+        $(".dup").append("<span>" +ingredients[i] +"</span> </br>");
+      }
+    }
+
+
+
+  </script>
 
   <script src="script.js"></script>
   <script src="assets/js/watson.js"></script>
