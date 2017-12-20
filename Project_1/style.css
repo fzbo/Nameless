@@ -22,7 +22,7 @@
 .button {
   background-image:url('https://lumberliquidators.scene7.com/is/image/LumberLiquidators/175x175/williamsburg%20butcher%20block%20co.%201%2012%20x%2025%20x12%20lft%20american%20cherry%20butcher%20block~chbb12-od_sw.jpg');
   width: 100%;
-  height: 15%;
+  height: 10%;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
@@ -38,6 +38,16 @@ progress { width: 100%; }
 progress:after { content: '%'; }
 .fail { background: #c00; padding: 2px; color: #fff; }
 .hidden { display: none !important;}
+
+#tag { border: 10px dashed #ccc; width: 1150px; min-height: 100px; margin: 20px auto;}
+#tag.hover { border: 10px dashed #0c0; }
+#tag p { margin: 10px; font-size: 14px; }
+
+#holder-recipe { border: 10px dashed #ccc; width: 300px; min-height: 300px; margin: 20px auto;}
+#holder-recipe.hover { border: 10px dashed #0c0; }
+#holder-recipe img { display: block; margin: 10px auto; width:180px; height:180px;}
+#holder-recipe p { font-family: 'Itim', cursive; font-size: 100%; margin: 10px; font-size: 14px; }
+#holder-recipe h4 { font-family:'Berkshire Swash', cursive; font-size: 200%; }
 
 img{
   max-width:220px;

@@ -140,3 +140,82 @@ function readURL(input) {
              reader.readAsDataURL(input.files[0]);
          }
      }
+
+
+
+//yummly API
+     $(document).ready(function(){
+
+       $("#ingredient").on("click", function() {
+
+         var foodImageItem = "kiwi"; //hardset variable until Watson API is ready set image-data
+         //*************************** 3 different searches ***************************
+         var queryRecipe = "recipes?";
+         var queryIngredient = "metadata/ingredient?";
+         var queryCuisine = "metadata/cuisine?";
+         // *************************** important: need to hide in gitignore file ***************************
+         var monkeyPaw = "_app_id=12dafe86&_app_key=ba62bbc8677a60fac1bc16abe00dbf86";
+         var queryImageSearch = "&allowedIngredient[]=" + foodImageItem; //search parameter + variable will be set by Watson API
+         //*************************** URL concatenation ***************************
+         var queryURL = "https://api.yummly.com/v1/api/" + queryRecipe + monkeyPaw + queryImageSearch;
+
+         // function imageSearchInfo(){} <<<<<<<<<< may need to put inside another function? <<<<<<<<<<
+
+         $.ajax({
+             url: queryURL,
+             method: "GET",
+             dataType: "JSON"
+
+         }).done(function(response) {
+             var results = response.matches;
+             var recipeData = results[0].recipeName;
+             var recipeRating = results[0].rating;
+             var recipeImage = results[0].smallImageUrls[0];
+             var ingredientItem= results[0].ingredients[0];
+             var ingredientList = results[0].ingredients;
+             var sourceCredit = results[0].sourceDisplayName;
+             var prepTime = (results[0].totalTimeInSeconds) / 60;
+             var multiOut;
+             var multiArr;
+
+
+             for(r=0;r<results.length;r++){
+               results[r];
+               // results[r].smallImageUrls;
+               // results[r].ingredients[0];
+               multiArr = results[r];
+             };
+
+             for(i=0;i<ingredientList.length;i++){
+                   ingredientList[i];
+                   multiArr.ingredients[i];
+                   multiOut = multiArr.ingredients[i];
+                 };
+
+// **********************  console.log test calls  **********************
+
+             console.log(ingredientItem); // used to link to Watson search-selected word(s)
+             console.log(results); // all recipes found with specific ingredient (result of Watson identification)
+             console.log(recipeData); // used to display recipe name to user
+             console.log(recipeImage); // used to display image of recipe-selected to user (larger image is available)
+             console.log("Recipe Rating: " + recipeRating); // used to display recipe rating to user
+             console.log("Total Min: " + prepTime); // used to display recipe preparation time in minutes to user
+
+             ingredientList.forEach(function(value){
+               console.log(value);
+             }); // used to display other ingredients to user (potential shopping list)
+
+             console.log(ingredientList);
+
+             console.log("Source: " + sourceCredit); // used to display source of recipe to user
+
+             //*******************************************************
+
+             console.log(multiOut); //hmmm?  iterates through all results and only displays last array's final value
+
+             console.log(multiArr); //hmmm?  iterates through all results and only displays last recipe results
+
+
+         });
+       });
+     });

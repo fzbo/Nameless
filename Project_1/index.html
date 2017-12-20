@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash|Bungee+Shade|Calligraffitti|Itim|Satisfy" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash|Bungee+Shade|Calligraffitti|Itim|Lobster|Satisfy" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
@@ -12,8 +12,8 @@
   </head>
   <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-    <img src="WTF-logo.png" width="30" height="30" alt="">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <img src="WTF-logo-neutrals.png" width="32" height="30" alt="">
     <a class="navbar-brand" href="#">WTF</a>
 
 
@@ -35,6 +35,9 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Tech Talk</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Read Me</a>
+        </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -47,8 +50,8 @@
 <center>
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
-      <h1 class="display-3" style="font-family: 'Bungee Shade', cursive;"><img src="WTF-logo.png" width="75" height="75" alt="">What the Fork!</h1>
-      <p class="lead" style="font-family: 'Calligraffitti', cursive; font-size: 200%;">The World's leading Recipe Finder!</p>
+      <h1 class="display-3" style="font-family: 'Bungee Shade', cursive;"><img src="WTF-logo-neutrals.png" width="115" height="100" alt="">What the Fork!</h1>
+      <p class="lead" style="font-family: 'Lobster', cursive; font-size: 200%;">The World's leading Recipe Finder!</p>
     </div>
   </div>
 </center>
@@ -61,7 +64,13 @@
     <article>
       <div id="holder">
       <p>Drag & Drop Your Image Here</p>
+
+      <form id="imgur">
+        <input type="file" class="imgur" accept="image/*" data-max-size="5000"/>
+      </form>
+
       <img id="blah" src="http://placehold.it/180" alt="your image" />
+
       </div>
       <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
       <p id="filereader">File API & FileReader API not supported</p>
@@ -89,36 +98,73 @@
     </br>
     </br>
       <button class="button" type="button">Click Me!</button>
+    </br>
+    </br>
+      <button class="button" type="button">Click Me!</button>
+
     </div>
+
+    <div class="col-md-6">
+      <div id="holder" style="width:100%;height:76%;">
+        <iframe height="100%" width="100%" src="demo_iframe.htm" name="iframe_a"></iframe>
+      </div>
+
+  </div>
+
 
 <!--Recipe-->
-<div class="col-md-3">
-  <div id="holder" style="width:100%;height:100%;">
+    <div class="col-md-3">
+      <div id="holder-recipe">
+        <center>
+          <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="espn.com" class="button">Go somewhere</a>
+        </center>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div id="holder-recipe">
           <center>
-            <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap" style="width:180px; height:180px;">
+            <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap">
             <div class="card-body">
-              <h4 class="card-title" style="font-family:'Berkshire Swash', cursive; font-size: 200%;">Card title</h4>
-              <p class="card-text" style="font-family: 'Itim', cursive;font-size: 100%;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <h4 class="card-title">Card title</h4>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
               <a href="#" class="button">Go somewhere</a>
           </center>
         </div>
       </div>
 
-    <div class="col-md-3">
-      <div id="holder" style="width:100%;height:100%;">
-          <center>
-            <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap" style="width:180px; height:180px;">
-            <div class="card-body">
-              <h4 class="card-title" style="font-family:'Berkshire Swash', cursive; font-size: 200%;">Card title</h4>
-              <p class="card-text" style="font-family: 'Itim', cursive; font-size: 100%;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="button">Go somewhere</a>
-          </center>
+      <div class="col-md-3">
+        <div id="holder-recipe">
+            <center>
+              <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap">
+              <div class="card-body">
+                <h4 class="card-title">Card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="button">Go somewhere</a>
+            </center>
+          </div>
         </div>
-      </div>
+
+        <div class="col-md-3">
+          <div id="holder-recipe">
+              <center>
+                <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap">
+                <div class="card-body">
+                  <h4 class="card-title">Card title</h4>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="button">Go somewhere</a>
+              </center>
+            </div>
+          </div>
     </div>
 
   </div>
   </div>
+</div>
 
   <script src="script.js"></script>
   <script src="assets/js/watson.js"></script>
@@ -127,5 +173,9 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+  <script src="assets/js/logic.js"></script>
+
   </body>
 </html>
