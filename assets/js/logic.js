@@ -421,12 +421,14 @@ function wikipedia(keyword)
   dataType: "json",
   success: function (data, textStatus, jqXHR) {
 
+      console.log(data);
       var markup = data.parse.text["*"];
-      var blurb = $('<div></div>').html(markup);
+      str= markup.replace(/\/\/upload/g, 'upload');
+      str= str.replace(/http/g, 'https');
+      var blurb = $('<div></div>').html(str);
 
       // remove links
       blurb.find('a').each(function() { $(this).replaceWith($(this).html()); });
-
       // remove any references
       blurb.find('sup').remove();
 
