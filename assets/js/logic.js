@@ -138,7 +138,7 @@ function addButton(goodData2)
     color=0;
   }
   wikipedia(goodData2); // this will send the search word to wikipedia API and display the information Properly
-
+  mainYummly(finalIngredientList);
 
 }
 
@@ -446,5 +446,73 @@ function wikipedia(keyword)
 //==================================================================//
 //==================================================================//
 //==================================================================//
+
+
+//==================================================================//
+//====================== Beginning of Yummly API ===================//
+//==================================================================//
+
+
+
+function mainYummly(foodImageItem) 
+{
+  console.log("here inside");
+  var finalQuery=[];
+  for (var i=0;i<foodImageItem.length;i++)
+  {
+    var queryImageSearch = "&allowedIngredient[]=" + foodImageItem[i]; //search parameter + variable will be set by Watson API
+    finalQuery+= queryImageSearch;
+  }
+  console.log(finalQuery);
+  //*************************** 3 different searches ***************************
+  var queryRecipe = "recipes?";
+  // var queryIngredient = "metadata/ingredient?"; // Allowed ingredient and meta ingredient might not work together
+  // var queryCuisine = "metadata/cuisine?";  // use Cuisine if we want to limit user query to specific  cuisine
+  // *************************** important: need to hide in gitignore file ***************************
+  var monkeyPaw = "_app_id=12dafe86&_app_key=ba62bbc8677a60fac1bc16abe00dbf86";
+  //*************************** URL concatenation ***************************
+  var queryURL = "https://api.yummly.com/v1/api/" + queryRecipe + monkeyPaw + finalQuery;
+  // function imageSearchInfo(){} <<<<<<<<<< may need to put inside another function? <<<<<<<<<<
+  $.ajax({ url: queryURL, method: "GET" }).done(function(response) 
+  {
+    var results = response;
+    console.log(results);
+    console.log(results.matches[0].ingredients);
+    var ingLength = results.matches;
+    for (var i=0; i<ingLength.length;i++)
+    {
+      var ingredients = results.matches[i].ingredients; // zero for first recipe only
+      var recipePicture = results.matches[i].imageUrlsBySize[90];
+      var title = results.matches[i].recipeName;
+      var id = results.matches[i].id;
+      console.log(recipePicture);
+      createRecipeList(ingredients, recipePicture,title,id,i);
+    }
+  });
+}
+
+
+function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
+{
+  //holder-recipe
+  console.log("inside the method!!");
+  var divToCreate = $("body").append( "<div class='col-md-3 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
+  "</div>"+
+  "</div>"+
+  "</div>");
+  console.log(divToCreate);
+  $("#recipe"+counterForRecipe).append("<H4>"+ title +"</H4>");
+  $("#recipe"+counterForRecipe).append("<p>https://www.yummly.com/#recipe/"+ id +"</p>");
+  $("#recipe"+counterForRecipe).append("<img src='"+recipePicture + "''>");
+  for (var i =0;i< ingredients.length;i++)
+  {
+    $("#recipe"+counterForRecipe).append("<span>" +ingredients[i] +"</span> </br>");
+  }
+}
+
+//==================================================================//
+//==================================================================//
+//==================================================================//
+
 
 
