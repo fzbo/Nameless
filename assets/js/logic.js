@@ -423,8 +423,8 @@ function wikipedia(keyword)
 
       console.log(data);
       var markup = data.parse.text["*"];
-      str= markup.replace(/\/\/upload/g, 'upload');
-      str= str.replace(/http/g, 'https');
+      str= markup.replace(/\/\/upload/g, 'upload'); // ADDED THIS LINE TO REMOVE THE UPLOAD IMAGE ERROR
+      str= str.replace(/http/g, 'https'); // ADDED THIS LINE TO HAVE THE CONTENT DISPLAYED SECURELY OVER HTTPS
       var blurb = $('<div></div>').html(str);
 
       // remove links
