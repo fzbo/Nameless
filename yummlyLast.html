@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <!-- <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash|Bungee+Shade|Calligraffitti|Itim|Lobster|Satisfy" rel="stylesheet">
+
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+      <link rel="stylesheet" href="./style.css" />
+    <title>What the Fork!</title>
+  </head>
+  <body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <img src="" width="32" height="30" alt="">
+    <a class="navbar-brand" href="#">WTF</a>
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Which APIs?</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Documentation</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Tech Talk</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Read Me</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="button" style="width:75px" type="submit">Search</button>
+      </form>
+    </div>
+    </nav>
+
+<!--Jumbotron-->
+<center>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-3" style="font-family: 'Bungee Shade', cursive;"><img src="" width="115" height="100" alt="">What the Fork!</h1>
+      <p class="lead" style="font-family: 'Lobster', cursive; font-size: 200%;">The World's leading Recipe Finder!</p>
+    </div>
+  </div>
+</center>
+
+
+<div class="container">
+  <div class="row">
+  <div class="col-md-4">
+    <center>
+    <article>
+      <div id="holder">
+      <p>Drag & Drop Your Image Here</p>
+
+      <form id="imgur">
+        <input type="file" class="imgur" accept="image/*" data-max-size="5000"/>
+      </form>
+
+      <img id="blah" src="http://placehold.it/180" alt="your image" />
+
+      </div>
+      <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
+      <p id="filereader">File API & FileReader API not supported</p>
+      <p id="formdata">XHR2's FormData is not supported</p>
+      <p id="progress">XHR2's upload progress isn't supported</p>
+      <input type='file' onchange="readURL(this);" />
+
+    </article>
+  </center>
+  </div>
+
+  <!--Buttons-->
+    <div class="col-md-2">
+    </br>
+      <button class="button" id="cuisine" type="button">Search Recipes</button>
+
+    </div>
+<!--Buttons
+    <div class="col-md-6">
+      <div id="holder" style="width:100%;height:76%;">
+        <iframe height="100%" width="100%" src="demo_iframe.htm" name="iframe_a"></iframe>
+      </div>
+-->
+  </div>
+
+
+<!--Recipe-->
+    <div class="col-md-3" id="dup">
+      <div class="recipeDisplay" id="holderRecipe">
+
+      </div>
+    </div>
+
+    </div>
+  </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+   var counterId=0;
+    $(document).ready(function()
+    {
+      $("#cuisine").on("click", function()
+      {
+      mainYummly();
+      });
+    });
+
+
+
+
+
+function mainYummly() 
+{
+  console.log("here inside");
+  var foodImageItem = ["salt","beef","apple"] ; //hardset variable until Watson API is ready set image-data
+  var finalQuery=[];
+  for (var i=0;i<foodImageItem.length;i++)
+  {
+    var queryImageSearch = "&allowedIngredient[]=" + foodImageItem[i]; //search parameter + variable will be set by Watson API
+    finalQuery+= queryImageSearch;
+  }
+  console.log(finalQuery);
+  //*************************** 3 different searches ***************************
+  var queryRecipe = "recipes?";
+  // var queryIngredient = "metadata/ingredient?"; // Allowed ingredient and meta ingredient might not work together
+  // var queryCuisine = "metadata/cuisine?";  // use Cuisine if we want to limit user query to specific  cuisine
+  // *************************** important: need to hide in gitignore file ***************************
+  var monkeyPaw = "_app_id=12dafe86&_app_key=ba62bbc8677a60fac1bc16abe00dbf86";
+  //*************************** URL concatenation ***************************
+  var queryURL = "https://api.yummly.com/v1/api/" + queryRecipe + monkeyPaw + finalQuery;
+  // function imageSearchInfo(){} <<<<<<<<<< may need to put inside another function? <<<<<<<<<<
+  $.ajax({ url: queryURL, method: "GET" }).done(function(response) 
+  {
+    var results = response;
+    console.log(results);
+    console.log(results.matches[0].ingredients);
+    var ingLength = results.matches;
+    for (var i=0; i<ingLength.length;i++)
+    {
+      var ingredients = results.matches[i].ingredients; // zero for first recipe only
+      var recipePicture = results.matches[i].imageUrlsBySize[90];
+      var title = results.matches[i].recipeName;
+      var id = results.matches[i].id;
+      console.log(recipePicture);
+      createRecipeList(ingredients, recipePicture,title,id,i);
+    }
+  });
+}
+
+
+function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
+{
+  //holder-recipe
+  console.log("inside the method!!");
+  var divToCreate = $("body").append( "<div class='col-md-3 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
+  "</div>"+
+  "</div>"+
+  "</div>");
+  console.log(divToCreate);
+  $("#recipe"+counterForRecipe).append("<H4>"+ title +"</H4>");
+  $("#recipe"+counterForRecipe).append("<p>https://www.yummly.com/#recipe/"+ id +"</p>");
+  $("#recipe"+counterForRecipe).append("<img src='"+recipePicture + "''>");
+  for (var i =0;i< ingredients.length;i++)
+  {
+    $("#recipe"+counterForRecipe).append("<span>" +ingredients[i] +"</span> </br>");
+  }
+}
+  </script>
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery.js"></script>
+
+
+  </body>
+</html>

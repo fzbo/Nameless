@@ -53,10 +53,7 @@ progress:after { content: '%'; }
 #tag { border: 10px dashed #ccc; width: 1150px; min-height: 100px; margin: 20px auto;}
 #tag.hover { border: 10px dashed #0c0; }
 #tag p { margin: 10px; font-size: 14px; }
-#ingredientList{
-min-height: 40px;
-
-}
+#ingredientList {min-height: 40px;}
 .holderRecipe {border: 10px dashed #ccc; width:100%; height:100%; margin: 20px auto;}
 .holderRecipe.hover { border: 10px dashed #0c0; }
 .holderRecipe img { display: block; margin: 10px auto; width:180px; height:180px;}
