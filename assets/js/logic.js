@@ -129,7 +129,7 @@ function addButton(goodData2)
 
   var buttonName = goodData2;
  
-  finalIngredientList.push(goodData2.replace(/_/g, '' )); // thia line is pushing the last scanned image keyword, the spaces will be replaced with a '_'
+  finalIngredientList.push(goodData2); // thia line is pushing the last scanned image keyword, the spaces will be replaced with a '_'
   
   console.log(" list of ingredients" + finalIngredientList);
   $("#ingredientList").append('<button'+ ' id="' + buttonName + '"' +' class="btn btn-' + buttonColors[color]+ ' m-3">' + buttonName +'</button>')
@@ -252,7 +252,6 @@ function imgurUploadCamera($files)
 
 
 $("document").ready(function() {
-event.preventDefault();
   $('input[type=file]').on("change", function() {
     var files = $(this).get(0).files;
     console.log(files);
@@ -274,11 +273,14 @@ event.preventDefault();
 
   captureButton.addEventListener('click', () => {
     // Draw the video frame to the canvas.
-    context.drawImage(player, 0, 0, canvas.width, canvas.height);
+    $("canvas").hide();
+    context.drawImage(player, 0, 0, canvas.width, canvas.height); // remove line to prevent duplicate images
     var dataURL = canvas.toDataURL();
     dataURL = dataURL.replace(/data:image\/png;base64,/i, ''); // Use this line because imgur doesn't accet base64 and we need for watson to work
     console.log(dataURL);
     imgurUploadCamera(dataURL);
+    // removed canvas Line 277 so it doesn't duplicate the pictures taken
+    $("#blah").attr('src','data:image/png;base64,'+dataURL);
    // addYummly(); // will add the resulting image keyword to yummly
     // Stop all video streams.
     player.srcObject.getVideoTracks().forEach(track => track.stop());
@@ -297,8 +299,8 @@ event.preventDefault();
 //==================================================================//
 //==================================================================//
 //==================================================================//
-
-var holder = document.getElementById('holder'),
+var holder = document.getElementById('holder')
+var blah = document.getElementById('blah'),
   tests = {
     filereader: typeof FileReader != 'undefined',
     dnd: 'draggable' in document.createElement('span'),
@@ -331,20 +333,20 @@ if (tests.filereader === true && acceptedTypes[file.type] === true) {
   var reader = new FileReader();
   reader.onload = function (event) {
     var image = new Image();
-    image.src = event.target.result;
-    image.width = 250; // a fake resize
-    holder.appendChild(image);
+    blah.src = event.target.result;
+    blah.width = 250; // a fake resize
+    //holder.appendChild(image);
   };
 
   reader.readAsDataURL(file);
 }  else {
-  holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
+  //holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
   console.log(file);
 }
 }
 
 function readfiles(files) {
-  debugger;
+ // debugger; //no need for debugger
   var formData = tests.formdata ? new FormData() : null;
   for (var i = 0; i < files.length; i++) {
     if (tests.formdata) formData.append('file', files[i]);
@@ -373,6 +375,7 @@ function readfiles(files) {
 }
 
 if (tests.dnd) {
+
 holder.ondragover = function () { this.className = 'hover'; return false; };
 holder.ondragend = function () { this.className = ''; return false; };
 holder.ondrop = function (e) {
@@ -436,6 +439,7 @@ function wikipedia(keyword)
       // remove cite error
       blurb.find('.mw-ext-cite-error').remove();
       $('#ingredientInfo').html($(blurb).find('p')); 
+      counterToAddData= 0; // reset button counter
     },
     error: function (errorMessage) {
     }

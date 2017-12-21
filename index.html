@@ -58,13 +58,12 @@
     <center>
     <article id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);" ondragend="dragend_handler(event);">
       <div id="holder">
-      <p>Drag & Drop Your Image Here</p>
+          <p>Drag & Drop Your Image Here</p>
         <!-- camera capture starts here -->
-          <video id="player" controls autoplay></video>
-          <button id="capture">Capture</button>
+          <video id="player" autoplay></video>
           <canvas id="canvas" width=320 height=240></canvas>
           <!-- camera capture ends here -->
-      <img id="blah" src="http://placehold.it/180" alt="your image" />
+          <img id="blah" src="assets/img/cameraIcon.png" alt="your image" />
       </div>
       <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
       <p id="filereader">File API & FileReader API not supported</p>
@@ -74,7 +73,8 @@
 <!-- ================================================================= -->
       <!-- VERY IMPORTANT DONT EDIT THIS BUTTON  BECAUSE IT WILL UPLOAD ITEMS TO IMGUR -->
       <form id="imgur">
-        <input type="file" class="imgur" accept="image/*" data-max-size="5000" onchange="readURL(this);"/>
+        <input type="file" class="imgur" accept="image/*" data-classButton="btn btn-primary" data-max-size="5000" onchange="readURL(this);"/>
+        <button id="capture">Capture</button>
       </form>
       <!-- END OF VERY IMPORTANT IMGUR BUTTON-->
 <!-- ================================================================= -->
