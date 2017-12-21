@@ -128,7 +128,8 @@ function addButton(goodData2)
 {
 
   var buttonName = goodData2;
-  finalIngredientList.push(buttonName);
+ 
+  finalIngredientList.push(goodData2.replace(/_/g, '' )); // thia line is pushing the last scanned image keyword, the spaces will be replaced with a '_'
   
   console.log(" list of ingredients" + finalIngredientList);
   $("#ingredientList").append('<button'+ ' id="' + buttonName + '"' +' class="btn btn-' + buttonColors[color]+ ' m-3">' + buttonName +'</button>')
@@ -457,6 +458,8 @@ function wikipedia(keyword)
 function mainYummly(foodImageItem) 
 {
   console.log("here inside");
+  //clear the last recipes created 
+
   var finalQuery=[];
   for (var i=0;i<foodImageItem.length;i++)
   {
@@ -496,7 +499,7 @@ function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
 {
   //holder-recipe
   console.log("inside the method!!");
-  var divToCreate = $("body").append( "<div class='col-md-3 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
+  var divToCreate = $("#yummlyIngredientList").append( "<div class='col-md-3 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
   "</div>"+
   "</div>"+
   "</div>");
