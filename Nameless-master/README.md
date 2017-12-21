@@ -25,3 +25,5 @@ Technical Specs
 
 •	AJAX
 
+•	Imgur API
+

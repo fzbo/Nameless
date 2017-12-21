@@ -128,7 +128,8 @@ function addButton(goodData2)
 {
 
   var buttonName = goodData2;
-  finalIngredientList.push(buttonName);
+ 
+  finalIngredientList.push(goodData2); // thia line is pushing the last scanned image keyword, the spaces will be replaced with a '_'
   
   console.log(" list of ingredients" + finalIngredientList);
   $("#ingredientList").append('<button'+ ' id="' + buttonName + '"' +' class="btn btn-' + buttonColors[color]+ ' m-3">' + buttonName +'</button>')
@@ -138,7 +139,7 @@ function addButton(goodData2)
     color=0;
   }
   wikipedia(goodData2); // this will send the search word to wikipedia API and display the information Properly
-
+  mainYummly(finalIngredientList);
 
 }
 
@@ -251,7 +252,6 @@ function imgurUploadCamera($files)
 
 
 $("document").ready(function() {
-event.preventDefault();
   $('input[type=file]').on("change", function() {
     var files = $(this).get(0).files;
     console.log(files);
@@ -273,11 +273,14 @@ event.preventDefault();
 
   captureButton.addEventListener('click', () => {
     // Draw the video frame to the canvas.
-    context.drawImage(player, 0, 0, canvas.width, canvas.height);
+    $("canvas").hide();
+    context.drawImage(player, 0, 0, canvas.width, canvas.height); // remove line to prevent duplicate images
     var dataURL = canvas.toDataURL();
     dataURL = dataURL.replace(/data:image\/png;base64,/i, ''); // Use this line because imgur doesn't accet base64 and we need for watson to work
     console.log(dataURL);
     imgurUploadCamera(dataURL);
+    // removed canvas Line 277 so it doesn't duplicate the pictures taken
+    $("#blah").attr('src','data:image/png;base64,'+dataURL);
    // addYummly(); // will add the resulting image keyword to yummly
     // Stop all video streams.
     player.srcObject.getVideoTracks().forEach(track => track.stop());
@@ -296,8 +299,8 @@ event.preventDefault();
 //==================================================================//
 //==================================================================//
 //==================================================================//
-
-var holder = document.getElementById('holder'),
+var holder = document.getElementById('holder')
+var blah = document.getElementById('blah'),
   tests = {
     filereader: typeof FileReader != 'undefined',
     dnd: 'draggable' in document.createElement('span'),
@@ -330,20 +333,20 @@ if (tests.filereader === true && acceptedTypes[file.type] === true) {
   var reader = new FileReader();
   reader.onload = function (event) {
     var image = new Image();
-    image.src = event.target.result;
-    image.width = 250; // a fake resize
-    holder.appendChild(image);
+    blah.src = event.target.result;
+    blah.width = 250; // a fake resize
+    //holder.appendChild(image);
   };
 
   reader.readAsDataURL(file);
 }  else {
-  holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
+  //holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
   console.log(file);
 }
 }
 
 function readfiles(files) {
-  debugger;
+ // debugger; //no need for debugger
   var formData = tests.formdata ? new FormData() : null;
   for (var i = 0; i < files.length; i++) {
     if (tests.formdata) formData.append('file', files[i]);
@@ -372,6 +375,7 @@ function readfiles(files) {
 }
 
 if (tests.dnd) {
+
 holder.ondragover = function () { this.className = 'hover'; return false; };
 holder.ondragend = function () { this.className = ''; return false; };
 holder.ondrop = function (e) {
@@ -423,8 +427,8 @@ function wikipedia(keyword)
 
       console.log(data);
       var markup = data.parse.text["*"];
-      str= markup.replace(/\/\/upload/g, 'upload');
-      str= str.replace(/http/g, 'https');
+      str= markup.replace(/\/\/upload/g, 'upload'); // ADDED THIS LINE TO REMOVE THE UPLOAD IMAGE ERROR
+      str= str.replace(/http/g, 'https'); // ADDED THIS LINE TO HAVE THE CONTENT DISPLAYED SECURELY OVER HTTPS
       var blurb = $('<div></div>').html(str);
 
       // remove links
@@ -435,6 +439,7 @@ function wikipedia(keyword)
       // remove cite error
       blurb.find('.mw-ext-cite-error').remove();
       $('#ingredientInfo').html($(blurb).find('p')); 
+      counterToAddData= 0; // reset button counter
     },
     error: function (errorMessage) {
     }
@@ -446,5 +451,75 @@ function wikipedia(keyword)
 //==================================================================//
 //==================================================================//
 //==================================================================//
+
+
+//==================================================================//
+//====================== Beginning of Yummly API ===================//
+//==================================================================//
+
+
+
+function mainYummly(foodImageItem) 
+{
+  console.log("here inside");
+  //clear the last recipes created 
+
+  var finalQuery=[];
+  for (var i=0;i<foodImageItem.length;i++)
+  {
+    var queryImageSearch = "&allowedIngredient[]=" + foodImageItem[i]; //search parameter + variable will be set by Watson API
+    finalQuery+= queryImageSearch;
+  }
+  console.log(finalQuery);
+  //*************************** 3 different searches ***************************
+  var queryRecipe = "recipes?";
+  // var queryIngredient = "metadata/ingredient?"; // Allowed ingredient and meta ingredient might not work together
+  // var queryCuisine = "metadata/cuisine?";  // use Cuisine if we want to limit user query to specific  cuisine
+  // *************************** important: need to hide in gitignore file ***************************
+  var monkeyPaw = "_app_id=12dafe86&_app_key=ba62bbc8677a60fac1bc16abe00dbf86";
+  //*************************** URL concatenation ***************************
+  var queryURL = "https://api.yummly.com/v1/api/" + queryRecipe + monkeyPaw + finalQuery;
+  // function imageSearchInfo(){} <<<<<<<<<< may need to put inside another function? <<<<<<<<<<
+  $.ajax({ url: queryURL, method: "GET" }).done(function(response) 
+  {
+    var results = response;
+    console.log(results);
+    console.log(results.matches[0].ingredients);
+    var ingLength = results.matches;
+    for (var i=0; i<ingLength.length;i++)
+    {
+      var ingredients = results.matches[i].ingredients; // zero for first recipe only
+      var recipePicture = results.matches[i].imageUrlsBySize[90];
+      var title = results.matches[i].recipeName;
+      var id = results.matches[i].id;
+      console.log(recipePicture);
+      createRecipeList(ingredients, recipePicture,title,id,i);
+    }
+  });
+}
+
+
+function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
+{
+  //holder-recipe
+  console.log("inside the method!!");
+  var divToCreate = $("#yummlyIngredientList").append( "<div class='col-md-3 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
+  "</div>"+
+  "</div>"+
+  "</div>");
+  console.log(divToCreate);
+  $("#recipe"+counterForRecipe).append("<H4>"+ title +"</H4>");
+  $("#recipe"+counterForRecipe).append("<p>https://www.yummly.com/#recipe/"+ id +"</p>");
+  $("#recipe"+counterForRecipe).append("<img src='"+recipePicture + "''>");
+  for (var i =0;i< ingredients.length;i++)
+  {
+    $("#recipe"+counterForRecipe).append("<span>" +ingredients[i] +"</span> </br>");
+  }
+}
+
+//==================================================================//
+//==================================================================//
+//==================================================================//
+
 
 
