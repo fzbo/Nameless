@@ -8,6 +8,7 @@ var counterToAddData = 0; // this counter will prevent a duplicate value to fill
 var buttonColors = ["primary","secondary","success","danger","warning","info","light"]; // button colors from bootstrap layout
 var color = 0;
 var ingredientList = [];
+var imageToUse;
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyDjsbjIcD3GTuLS_1okzz-OGxDdJ3QNpcM",
@@ -60,19 +61,16 @@ function dragend_handler(ev) {
 
 function addYummly()
 {
+  
   var y = 0;
   console.log("checking how many times inside" + counterinside);
   var ref = firebase.database().ref().child('node-client');
   var logsRef1= ref.child('messages');
   var lastLayer;
-  logsRef1.on('value', function(snap) 
+  logsRef1.once('value', function(snap) 
   {
-    ++counterToAddData;
-    if (snap) //checking if snapshot is not null
-    {
-      console.log("checking how many times outside" + counteroutside);
+      ++counterToAddData; 
       $("#postDataHere").html("");
-      event.preventDefault();
       console.log(Object.values(snap.val()));
       y = Object.values(snap.val());
       console.log("console.log this: " +y);
@@ -80,26 +78,59 @@ function addYummly()
       y= Object.values(y)[0];
       y= Object.values(y)[0];
       lastLayer= Object.values(y)[0];
-      console.log(lastLayer);
-      for (var i = 0; i < lastLayer.length;i++)
-      {
-        
-        var tag = "Keyword :";
-        y=Object.values(lastLayer[i]);
-        for (var j=0; j<2;j++)
-        {
-          console.log(Object.values(y)[j]);
-          var goodData = Object.values(y)[j];
-          console.log('counter to add data' + counterToAddData);
-          if (i===0 && j===0 && counterToAddData===2)
-          {
-            addToDataBase(goodData, ref)
-          }
-          $("#postDataHere").append("<p>"+ tag + goodData + "</p>"); 
-          tag = "Score :"
-        }
+var valueDataBase;  
+ref.child('images').child('TestingImage').once("value",function(snapData){
+valueDataBase =snapData.val();
+console.log(valueDataBase)
+console.log("compared to " + imageToUse);
+      if (valueDataBase === imageToUse)
+      {  
+      console.log("inside if");
+      addToDataBase(lastLayer[0].class, ref);
+      counterToAddData = 0 ;
       }
-    }
+});
+
+
+
+
+
+    
+    // console.log("counter to AddData"+counterToAddData);
+    // if (snap) //checking if snapshot is not null
+    // {
+    //   ++counterToAddData;
+    //   console.log("checking how many times outside" + counteroutside);
+    //   $("#postDataHere").html("");
+    //   event.preventDefault();
+    //   console.log(Object.values(snap.val()));
+    //   y = Object.values(snap.val());
+    //   console.log("console.log this: " +y);
+    //   y= Object.values(y[0])[1][0];
+    //   y= Object.values(y)[0];
+    //   y= Object.values(y)[0];
+    //   lastLayer= Object.values(y)[0];
+    //   console.log(lastLayer);
+
+    //   for (var i = 0; i < lastLayer.length;i++)
+    //   {
+        
+    //     var tag = "Keyword :";
+    //     y=Object.values(lastLayer[i]);
+    //     for (var j=0; j<2;j++)
+    //     {
+    //       console.log(Object.values(y)[j]);
+    //       var goodData = Object.values(y)[j];
+    //       console.log('counter to add data' + counterToAddData);
+    //       if (i===0 && j===0 && counterToAddData===3)
+    //       {
+    //         //addToDataBase(lastLayer[0].class, ref);
+    //       }
+    //       $("#postDataHere").append("<p>"+ tag + goodData + "</p>"); 
+    //       tag = "Score :"
+    //     }
+    //   }
+    // }
   });
 
 }
@@ -117,7 +148,7 @@ function addToDataBase(goodData1, ref1)
   ingredientList[numOfIngredients] =goodData1; // this line will add the ingredient to the array in the same position as in the database
   console.log("counter" + numOfIngredients);
   console.log(ingredientList);
-  firebase.database().ref('node-client/yummly/' + "ingredient" + numOfIngredients).set(goodData1);
+  //firebase.database().ref('node-client/yummly/' + "ingredient" + numOfIngredients).set(goodData1);
   addButton(goodData1);
 
   });        
@@ -140,7 +171,6 @@ function addButton(goodData2)
   }
   wikipedia(goodData2); // this will send the search word to wikipedia API and display the information Properly
   mainYummly(finalIngredientList);
-
 }
 
 // function addShoppingList()
@@ -168,7 +198,7 @@ function imgurUpload($files)
 
     // Replace ctrlq with your own API key
     var apiUrl = 'https://api.imgur.com/3/image';
-    var apiKey = 'c70f5706c082422';
+    var apiKey = 'cd2b7a5d18eaa23';
 
     var settings = {
       async: false,
@@ -200,8 +230,8 @@ function imgurUpload($files)
       console.log(JSON.parse(response).data.link);
     });
   }
-  addYummly();
-
+setTimeout(function(){ addYummly(); }, 5000);
+  
 }
 
 function imgurUploadCamera($files)
@@ -215,7 +245,7 @@ function imgurUploadCamera($files)
 
     // Replace ctrlq with your own API key
     var apiUrl = 'https://api.imgur.com/3/image';
-    var apiKey = 'c70f5706c082422';
+    var apiKey = 'cd2b7a5d18eaa23';
 
     var settings = {
       async: false,
@@ -246,44 +276,64 @@ function imgurUploadCamera($files)
       firebase.database().ref().child('node-client').child('images').child('TestingImage').set(imageToUse);
       console.log(JSON.parse(response).data.link);
     });
+setTimeout(function(){ addYummly(); }, 5000);
   
-  addYummly();
+
 }
 
 
 $("document").ready(function() {
+  event.preventDefault();
+
+  //$("canvas").hide();
+  $("#player").hide();
   $('input[type=file]').on("change", function() {
+    event.preventDefault();
     var files = $(this).get(0).files;
     console.log(files);
     imgurUpload(files);
-    counterToAddData= 0;
+    var files = 0;
+  });
+  $("#hiddeableCamera").on('click', function(){
+    event.preventDefault();
+    $("#hiddeableCamera").hide();  
+    $("#player").show();
+    takeAPicture();
   });
 });
 
 
 // ==================================CAMERA CAPTURE===================================//
-  const player = document.getElementById('player');
-  const canvas = document.getElementById('canvas');
-  const context = canvas.getContext('2d');
-  const captureButton = document.getElementById('capture');
+function takeAPicture()
+{
 
-  const constraints = {
+  var player = document.getElementById('player');
+  var canvas = document.getElementById('canvas');
+  var context = canvas.getContext('2d');
+  var captureButton = document.getElementById('capture');
+
+  var constraints = {
     video: true,
   };
 
   captureButton.addEventListener('click', () => {
     // Draw the video frame to the canvas.
-    $("canvas").hide();
     context.drawImage(player, 0, 0, canvas.width, canvas.height); // remove line to prevent duplicate images
     var dataURL = canvas.toDataURL();
     dataURL = dataURL.replace(/data:image\/png;base64,/i, ''); // Use this line because imgur doesn't accet base64 and we need for watson to work
     console.log(dataURL);
+    console.log("passing in");
     imgurUploadCamera(dataURL);
     // removed canvas Line 277 so it doesn't duplicate the pictures taken
     $("#blah").attr('src','data:image/png;base64,'+dataURL);
    // addYummly(); // will add the resulting image keyword to yummly
     // Stop all video streams.
-    player.srcObject.getVideoTracks().forEach(track => track.stop());
+   player.srcObject.getVideoTracks().forEach(track => track.stop());
+    $("#player").hide();
+    $("#hiddeableCamera").show(); 
+
+document.getElementById("canvas").style.display = "none";
+stream = new MediaStream();
   });
 
   // Attach the video stream to the video element and autoplay.
@@ -291,6 +341,7 @@ $("document").ready(function() {
     .then((stream) => {
       player.srcObject = stream;
     });
+}
 //====================================CAMERA CAPTURE ENDS ===============================//
 
 
@@ -503,7 +554,7 @@ function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
 {
   //holder-recipe
   console.log("inside the method!!");
-  var divToCreate = $("#yummlyIngredientList").append( "<div class='col-md-3 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
+  var divToCreate = $("#yummlyIngredientList").append( "<div class='col-md-6 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
   "</div>"+
   "</div>"+
   "</div>");
@@ -515,6 +566,10 @@ function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
   {
     $("#recipe"+counterForRecipe).append("<span>" +ingredients[i] +"</span> </br>");
   }
+  $("#yummlyIngredientList").append( "<div class='col-md-6 dup holderRecipe' >"+ '<iframe src="'+ 'https:\/\/www.yummly.com\/#recipe\/'+ id +'"></iframe>'+
+  "</div>"+
+  "</div>"+
+  "</div>");
 }
 
 //==================================================================//

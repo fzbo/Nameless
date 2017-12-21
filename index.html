@@ -54,16 +54,17 @@
 
 <div class="container">
   <div class="row holderRecipe">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <center>
     <article id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);" ondragend="dragend_handler(event);">
       <div id="holder">
-          <p>Drag & Drop Your Image Here</p>
+          <p>Drag & Drop Your Image Here or Click on the camera to take a picture</p>
         <!-- camera capture starts here -->
-          <video id="player" autoplay></video>
-          <canvas id="canvas" width=320 height=240></canvas>
+          <video id="player" poster="assets/img/cameraIcon.png" autoplay width=40% height=40% ></video>
+          <div id="hiddeableCamera" style="background-size: 100% 100%; background-image: url(assets/img/cameraIcon.png); width:30%; height=:30%; "></div>
+          <canvas id="canvas" width=100% height=100%></canvas>
           <!-- camera capture ends here -->
-          <img id="blah" src="assets/img/cameraIcon.png" alt="your image" />
+          <img id="blah" src="" alt="" />
       </div>
       <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
       <p id="filereader">File API & FileReader API not supported</p>
@@ -73,9 +74,9 @@
 <!-- ================================================================= -->
       <!-- VERY IMPORTANT DONT EDIT THIS BUTTON  BECAUSE IT WILL UPLOAD ITEMS TO IMGUR -->
       <form id="imgur">
-        <input type="file" class="imgur" accept="image/*" data-classButton="btn btn-primary" data-max-size="5000" onchange="readURL(this);"/>
-        <button id="capture">Capture</button>
+        <input type="file" class="imgur" accept="image/*" data-max-size="5000" onchange="readURL(this);"/>
       </form>
+      <button id="capture" class="btn btn-primary">Take a Shot!</button>
       <!-- END OF VERY IMPORTANT IMGUR BUTTON-->
 <!-- ================================================================= -->
 
@@ -86,18 +87,6 @@
 
 
 <!--Recipe-->
-    <div class="col-md-6">
-      <div id="holder" style="width:100%;height:100%;">
-          <center>
-            <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap" style="width:180px; height:180px;">
-            <div class="card-body">
-              <h4 class="card-title" style="font-family:'Berkshire Swash', cursive; font-size: 200%;">Card title</h4>
-              <p class="card-text" style="font-family: 'Itim', cursive; font-size: 100%;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="button">Go somewhere</a>
-          </center>
-        </div>
-      </div>
-    </div>
 
     <div class="container-fluid col-lg-12 holderRecipe">
       <div class="container col-md-8 col-md-offset-2">
