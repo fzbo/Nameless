@@ -15,23 +15,12 @@ var visual_recognition = watson.visual_recognition({
   version: 'v3',
   version_date: '2016-05-20'
 });
-//var imageToUse = 'https://i.imgur.com/a9RRkXn.jpg';
-//var params = {
-//  parameters: {'url': imageToUse}
-//};
 
-// visual_recognition.classify(params, function(err, res) {
-// if (err)
-//   console.log(err); 
-// else
-//   messageWatson = res;
-// console.log(messageWatson);
-//var message = {text: messageWatson, timestamp: new Date().toString()};
+
 var ref = firebase.database().ref().child('node-client');
 var logsRef= ref.child('images');
 var messagesRef=ref.child('messages');
-//var messageRef = messagesRef.set(message);
-//logsRef.child('TestingImage').set(imageToUse);
+
 
 logsRef.orderByKey().limitToLast(1).on('child_added', function(snap) {
   console.log('added', snap.val());
@@ -43,10 +32,8 @@ logsRef.on('child_removed', function(snap) {
 
 logsRef.child('TestingImage').on('value', function(snap) {
   imageToUse = snap.val();
-watsoncheck(imageToUse);
-
+  watsoncheck(imageToUse);
   console.log(imageToUse);
-
   console.log('changed', snap.val());
 });
 logsRef.on('value', function(snap) {
@@ -90,6 +77,7 @@ console.log(messageWatson);
 var message = {text: messageWatson}; //, timestamp: new Date().toString()
 var ref = firebase.database().ref().child('node-client');
 setMessages(message);
+message = 0;
 });
 
 }

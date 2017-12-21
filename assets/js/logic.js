@@ -294,6 +294,9 @@ $("document").ready(function() {
     imgurUpload(files);
     var files = 0;
   });
+  $("#refreshbutton").on('click', function(){
+    window.location.reload(true);
+  });
   $("#hiddeableCamera").on('click', function(){
     event.preventDefault();
     $("#hiddeableCamera").hide();  
