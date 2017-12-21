@@ -53,8 +53,8 @@
 
 
 <div class="container">
-  <div class="row">
-  <div class="col-md-4">
+  <div class="row holderRecipe">
+  <div class="col-md-6">
     <center>
     <article id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);" ondragend="dragend_handler(event);">
       <div id="holder">
@@ -83,25 +83,10 @@
     </center>
   </div>
 
-  <!--Buttons-->
-    <div class="col-md-2" id="ingredientList">
 
-    </div>
 
 <!--Recipe-->
-<div class="col-md-3">
-  <div id="holder" style="width:100%;height:100%;">
-          <center>
-            <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap" style="width:180px; height:180px;">
-            <div class="card-body">
-              <h4 class="card-title" style="font-family:'Berkshire Swash', cursive; font-size: 200%;">Card title</h4>
-              <p id="shoppingList"class="card-text" style="font-family: 'Itim', cursive;font-size: 100%;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="button">Go somewhere</a>
-          </center>
-        </div>
-      </div>
-
-    <div class="col-md-3">
+    <div class="col-md-6">
       <div id="holder" style="width:100%;height:100%;">
           <center>
             <img class="card-img-top" src="http://placehold.it/180" alt="Card image cap" style="width:180px; height:180px;">
@@ -114,32 +99,39 @@
       </div>
     </div>
 
-  </div>
-  </div>
+    <div class="container-fluid col-lg-12 holderRecipe">
+      <div class="container col-md-8 col-md-offset-2">
+  <!-- **********************  buttons ********************** -->
+        <div class="row" id="ingredientList">
+
+        </div>
+      </div>
+    </div>  
 
 
 
-<div id="postDataHere"></div>
 
- <div class="container-fluid col-lg-12">
+
+
+
+    <div class="container-fluid col-lg-12 holderRecipe">
       <div class="container col-md-8 col-md-offset-2">
   <!-- **********************  ROW-00: (header)  ********************** -->
         <div class="row">
           <header class="jumbotron">
-            <h1 class="text-center">Wikipedia Entry</h1>
+            <h1 class="text-center ">Wikipedia Entry</h1>
           </header>
         </div>
   <!-- **********************  ROW-01: (buttons/inputs)  ********************** -->
-        <div class="row">
+<!--         <div class="row">
           <div class="buttonInput">                    
           </div>
           <div class="well well-sm col-md-12">
-<!--             <button id="recipe">Recipe Search</button> -->
-       <!--      <button class="btn-lg btn-success col-md-offset-10" id="ingredient">Ingredient Search</button>
- -->
-          <br>
+            <button id="recipe">Recipe Search</button>
+            <button class="btn-lg btn-success col-md-offset-10" id="ingredient">Ingredient Search</button>
+            <br>
           </div>
-        </div>
+        </div> -->
     <!-- **********************  ROW-02: (Wikipedia Information panel)  ********************** -->
         <div class="row">
           <div class="recipeDisplay panel panel-info">
@@ -154,7 +146,16 @@
       </div>
 
 
-    </div>
+</div>
+
+  </div>
+  </div>
+
+
+
+<div id="postDataHere"></div>
+
+
 
 
 
