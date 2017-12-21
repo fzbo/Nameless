@@ -74,3 +74,7 @@ img{
 input[type=file]{
 padding:10px;
 }
+
+iframe{
+  min-height: 600px;
+}
