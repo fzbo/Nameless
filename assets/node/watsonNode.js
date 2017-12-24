@@ -10,8 +10,9 @@ var watson = require('watson-developer-cloud');
 var fs = require('fs');
 
 var visual_recognition = watson.visual_recognition({
-  //api_key: '3511cb92faf71512889a8004b4e0eea17618cdf8',
-   api_key: '6de8f853781dde067ae4c1ebde94f4579a4e8a6c', //Charlie
+  api_key: 'eccb86215ba03e3b5ff9877ce2b28b89c4ac1c57',
+  //api_key: '3511cb92faf71512889a8004b4e0eea17618cdf8', //alex
+  // api_key: '6de8f853781dde067ae4c1ebde94f4579a4e8a6c', //Charlie
   version: 'v3',
   version_date: '2016-05-20'
 });
@@ -56,8 +57,8 @@ var watson = require('watson-developer-cloud');
 var fs = require('fs');
 
 var visual_recognition = watson.visual_recognition({
-  //api_key: '3511cb92faf71512889a8004b4e0eea17618cdf8',
-  api_key: '6de8f853781dde067ae4c1ebde94f4579a4e8a6c', //Charlie
+  api_key: 'eccb86215ba03e3b5ff9877ce2b28b89c4ac1c57',
+  //api_key: '6de8f853781dde067ae4c1ebde94f4579a4e8a6c', //Charlie
   version: 'v3',
   version_date: '2016-05-20'
 });
@@ -77,7 +78,7 @@ console.log(messageWatson);
 var message = {text: messageWatson}; //, timestamp: new Date().toString()
 var ref = firebase.database().ref().child('node-client');
 setMessages(message);
-message = 0;
+message = 0
 });
 
 }
