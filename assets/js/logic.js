@@ -78,6 +78,7 @@ function addYummly()
       y= Object.values(y)[0];
       y= Object.values(y)[0];
       lastLayer= Object.values(y)[0];
+      console.log("Watson information : ", lastLayer);
 var valueDataBase;  
 ref.child('images').child('TestingImage').once("value",function(snapData){
 valueDataBase =snapData.val();
@@ -230,7 +231,7 @@ function imgurUpload($files)
       console.log(JSON.parse(response).data.link);
     });
   }
-setTimeout(function(){ addYummly(); }, 5000);
+setTimeout(function(){ addYummly(); }, 2000);
   
 }
 
@@ -276,7 +277,7 @@ function imgurUploadCamera($files)
       firebase.database().ref().child('node-client').child('images').child('TestingImage').set(imageToUse);
       console.log(JSON.parse(response).data.link);
     });
-setTimeout(function(){ addYummly(); }, 5000);
+setTimeout(function(){ addYummly(); }, 2000);
   
 
 }
@@ -284,9 +285,9 @@ setTimeout(function(){ addYummly(); }, 5000);
 
 $("document").ready(function() {
   event.preventDefault();
-
-  //$("canvas").hide();
-  $("#player").hide();
+  $("canvas").hide();
+  $("#hiddeableCamera").hide(); 
+  //$("#player").hide();
   $('input[type=file]').on("change", function() {
     event.preventDefault();
     var files = $(this).get(0).files;
@@ -297,22 +298,23 @@ $("document").ready(function() {
   $("#refreshbutton").on('click', function(){
     window.location.reload(true);
   });
-  $("#hiddeableCamera").on('click', function(){
-    event.preventDefault();
-    $("#hiddeableCamera").hide();  
-    $("#player").show();
+
+  $(document.body).on('click','video', function(){
+    event.preventDefault(); 
+    //$("#player").show();
     takeAPicture();
   });
+
 });
 
 
 // ==================================CAMERA CAPTURE===================================//
 function takeAPicture()
 {
-
+  var counterTakePicture= 0; // this counter will prevent the addEventListener for captureButton to trigger more than once
   var player = document.getElementById('player');
   var canvas = document.getElementById('canvas');
-  var context = canvas.getContext('2d');
+  var  context = canvas.getContext('2d');
   var captureButton = document.getElementById('capture');
 
   var constraints = {
@@ -320,29 +322,32 @@ function takeAPicture()
   };
 
   captureButton.addEventListener('click', () => {
-    // Draw the video frame to the canvas.
-    context.drawImage(player, 0, 0, canvas.width, canvas.height); // remove line to prevent duplicate images
-    var dataURL = canvas.toDataURL();
-    dataURL = dataURL.replace(/data:image\/png;base64,/i, ''); // Use this line because imgur doesn't accet base64 and we need for watson to work
-    console.log(dataURL);
-    console.log("passing in");
-    imgurUploadCamera(dataURL);
-    // removed canvas Line 277 so it doesn't duplicate the pictures taken
-    $("#blah").attr('src','data:image/png;base64,'+dataURL);
-   // addYummly(); // will add the resulting image keyword to yummly
-    // Stop all video streams.
-   player.srcObject.getVideoTracks().forEach(track => track.stop());
-    $("#player").hide();
-    $("#hiddeableCamera").show(); 
-
-document.getElementById("canvas").style.display = "none";
-stream = new MediaStream();
+    if (counterTakePicture ===0) // prevents eventlistener to be  triggered more than once
+    {
+      counterTakePicture++;
+      // Draw the video frame to the canvas.
+      context.drawImage(player, 0, 0, canvas.width, canvas.height); // remove line to prevent duplicate images
+      var dataURL = canvas.toDataURL();
+      dataURL = dataURL.replace(/data:image\/png;base64,/i, ''); // Use this line because imgur doesn't accet base64 and we need for watson to work
+      console.log(dataURL);
+      console.log("passing in");
+      imgurUploadCamera(dataURL);
+      $("#blah").attr('src','data:image/png;base64,'+dataURL);
+      player.srcObject.getVideoTracks().forEach(track => track.stop());
+      console.log(player.srcObject);
+      $("#dragLabel").remove();
+      $("#player").remove();
+      $("#holder").prepend('<p id="dragLabel">Drag & Drop Your Image Here or Click on the camera to take a picture</p><video id="player" poster="assets/img/cameraIcon.png" autoplay width=40% height=40% ></video>');
+    }
   });
+
 
   // Attach the video stream to the video element and autoplay.
   navigator.mediaDevices.getUserMedia(constraints)
     .then((stream) => {
       player.srcObject = stream;
+      player.srcObject.active = false;
+
     });
 }
 //====================================CAMERA CAPTURE ENDS ===============================//
