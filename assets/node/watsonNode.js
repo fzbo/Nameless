@@ -43,14 +43,6 @@ logsRef.on('value', function(snap) {
 //});
 
 
-
-
-
-
-
-//
-
-
 function watsoncheck(images)
 {
 var watson = require('watson-developer-cloud');

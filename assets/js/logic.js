@@ -1,3 +1,5 @@
+//======================Global Variables============================//
+//==================================================================//
 var numOfIngredients = 0;  
 var ingredientList;
 var finalIngredientList = [];
@@ -9,60 +11,55 @@ var buttonColors = ["primary","secondary","success","danger","warning","info","l
 var color = 0;
 var ingredientList = [];
 var imageToUse;
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyDjsbjIcD3GTuLS_1okzz-OGxDdJ3QNpcM",
-    authDomain: "forkoff-b5d5b.firebaseapp.com",
-    databaseURL: "https://forkoff-b5d5b.firebaseio.com",
-    projectId: "forkoff-b5d5b",
-    storageBucket: "forkoff-b5d5b.appspot.com",
-    messagingSenderId: "182993753568"
-  };
-  firebase.initializeApp(config);
 
 
-function drop_handler(ev) {
-  console.log("Drop");
-  ev.preventDefault();
-  console.log(ev.dataTransfer.files);
-  // If dropped items aren't files, reject them
-  var dt = ev.dataTransfer.files;
-  if (dt.length) 
+//======================Initialize Firebase=========================//
+//==================================================================//
+var config = {
+  apiKey: "AIzaSyDjsbjIcD3GTuLS_1okzz-OGxDdJ3QNpcM",
+  authDomain: "forkoff-b5d5b.firebaseapp.com",
+  databaseURL: "https://forkoff-b5d5b.firebaseio.com",
+  projectId: "forkoff-b5d5b",
+  storageBucket: "forkoff-b5d5b.appspot.com",
+  messagingSenderId: "182993753568"
+};
+firebase.initializeApp(config);
+
+//======================Global DOM Variables to be handled in main process=========================//
+//=================================================================================================//
+var holder = document.getElementById('holder')
+var blah = document.getElementById('blah'),
+  tests = 
   {
-    // Use DataTransferItemList interface to access the file(s)
-        console.log("imgur function");
-        $("#loadingImage").show();
-        imgurUpload(dt);
-  }
-}
+    filereader: typeof FileReader != 'undefined',
+    dnd: 'draggable' in document.createElement('span'),
+    formdata: !!window.FormData,
+    progress: "upload" in new XMLHttpRequest
+  },
+  support = 
+  {
+    filereader: document.getElementById('filereader'),
+    formdata: document.getElementById('formdata'),
+    progress: document.getElementById('progress')
+  },
+  acceptedTypes = 
+  {
+    'image/png': true,
+    'image/jpeg': true,
+    'image/gif': true
+  },
+  progress = document.getElementById('uploadprogress'),
+  fileupload = document.getElementById('upload');
 
 
-
-function dragover_handler(ev) {
-  console.log("dragOver");
-  // Prevent default select and drag behavior
-  ev.preventDefault();
-}
-
-function dragend_handler(ev) {
-  console.log("dragEnd");
-  // Remove all of the drag data
-  var dt = ev.dataTransfer;
-  if (dt.items) {
-    // Use DataTransferItemList interface to remove the drag data
-    for (var i = 0; i < dt.items.length; i++) {
-      dt.items.remove(i);
-    }
-  } else {
-    // Use DataTransfer interface to remove the drag data
-    ev.dataTransfer.clearData();
-  }
-}
+//====================================================FUNCTIONS============================================================//
+//=========================================================================================================================//
 
 
+//==================addYummmly Function will retrieve the responses from Watson and pass it to an array to later be used for mainYummly function to retrieve recipes =========//
+//============================================================================================================================================================================//
 function addYummly()
 {
-  
   var y = 0;
   console.log("checking how many times inside" + counterinside);
   var ref = firebase.database().ref().child('node-client');
@@ -70,52 +67,51 @@ function addYummly()
   var lastLayer;
   logsRef1.once('value', function(snap) 
   {
-      ++counterToAddData; 
-      $("#postDataHere").html("");
-      console.log(Object.values(snap.val()));
-      y=snap.val().images[0].classifiers[0].classes;
-      lastLayer= y[0];
-      console.log("Watson information : ", lastLayer);
-var valueDataBase;  
-ref.child('images').child('TestingImage').once("value",function(snapData){
-valueDataBase =snapData.val();
-console.log(valueDataBase)
-console.log("compared to " + imageToUse);
+    ++counterToAddData; 
+    $("#postDataHere").html("");
+    console.log(Object.values(snap.val()));
+    y=snap.val().images[0].classifiers[0].classes;
+    lastLayer= y[0];
+    console.log("Watson information : ", lastLayer);
+    var valueDataBase;  
+    ref.child('images').child('TestingImage').once("value",function(snapData){
+      valueDataBase =snapData.val();
+      console.log(valueDataBase)
+      console.log("compared to " + imageToUse);
       if (valueDataBase === imageToUse)
       {  
-      console.log("inside if");
-      addToDataBase(lastLayer.class, ref);
-      counterToAddData = 0 ;
+        console.log("inside if");
+        addToDataBase(lastLayer.class, ref);
+        counterToAddData = 0 ;
       }
-});
-
-});
-
+    });
+  });
 }
 
 
-// this function will add the last uploaded ingredient to the database
+//==================This function will add the watson responses to a local Array and pass it to  addButton =========//
+//==================================================================================================================//
 function addToDataBase(goodData1, ref1)
 {
   counter++;
   console.log("passed " + counter + " times in " + goodData1);
   console.log("here is the good date" + goodData1);
-  ref1.child('yummly').once('value').then(function(snapshot){
-  console.log("inside firebase" + snapshot.numChildren());
-  numOfIngredients= snapshot.numChildren();
-  ingredientList[numOfIngredients] =goodData1; // this line will add the ingredient to the array in the same position as in the database
-  console.log("counter" + numOfIngredients);
-  console.log(ingredientList);
-  //firebase.database().ref('node-client/yummly/' + "ingredient" + numOfIngredients).set(goodData1);
-  addButton(goodData1);
-
+  ref1.child('yummly').once('value').then(function(snapshot)
+  {
+    console.log("inside firebase" + snapshot.numChildren());
+    numOfIngredients= snapshot.numChildren();
+    ingredientList[numOfIngredients] =goodData1; // this line will add the ingredient to the array in the same position as in the database
+    console.log("counter" + numOfIngredients);
+    console.log(ingredientList);
+    //firebase.database().ref('node-client/yummly/' + "ingredient" + numOfIngredients).set(goodData1);
+    addButton(goodData1);
   });        
 }
 
-// addButton will add a button when user add a picture.
+//==================Function addButton will create a button from the watson responses and pass that response to wikipedia function to retrieve its definition or information =========//
+//====================================================================================================================================================================================//
 function addButton(goodData2)
 {
-
   var buttonName = goodData2;
  
   finalIngredientList.push(goodData2); // thia line is pushing the last scanned image keyword, the spaces will be replaced with a '_'
@@ -131,16 +127,12 @@ function addButton(goodData2)
   mainYummly(finalIngredientList);
 }
 
-// function addShoppingList()
-// {
 
-//   $("#shoppingList").html()
-// }
 
-// imgurUpload will upload the image when submitted or drag and dropped or the picture taken 
+//===================Upload to Imgur from Local file starts here ==============//
+//=============================================================================//
 function imgurUpload($files)
 {
-
   console.log("$files is " + JSON.stringify($files));
   if ($files.length) 
   {
@@ -192,15 +184,14 @@ function imgurUpload($files)
   
 }
 
+//===============Upload to Imgur Picture from Camera starts here ==============//
+//=============================================================================//
+
 function imgurUploadCamera($files)
 {
-
   console.log("$files is " + JSON.stringify($files));
-
-
     // Begin file upload
     console.log("Uploading file to Imgur..");
-
     // Replace ctrlq with your own API key
     var apiUrl = 'https://api.imgur.com/3/image';
     var apiKey = 'cd2b7a5d18eaa23';
@@ -238,42 +229,8 @@ function imgurUploadCamera($files)
 
 
 
-
-$("document").ready(function() {
-  event.preventDefault();
-  $("canvas").hide();
-  $("#loadingImage").hide();
-  $("#hiddeableCamera").hide(); 
-  //$("#player").hide();
-  $('input[type=file]').on("change", function() {
-    $("#loadingImage").show();
-    event.preventDefault();
-    var files = $(this).get(0).files;
-    console.log(files);
-    imgurUpload(files);
-    var files = 0;
-  });
-
-  $("#refreshbutton").on('click', function(){
-    window.location.reload(true);
-  });
-
-  $(document.body).on('click','video', function(){
-    event.preventDefault(); 
-    //$("#player").show();
-    takeAPicture();
-  });
-
-  firebase.database().ref().child('node-client').child('messages').on('child_changed',function() {
-    $("#loadingImage").hide();
-    addYummly();
-  });
-
-
-});
-
-
-// ==================================CAMERA CAPTURE===================================//
+//========================== Camera Capture starts here =======================//
+//=============================================================================//
 function takeAPicture()
 {
   var counterTakePicture= 0; // this counter will prevent the addEventListener for captureButton to trigger more than once
@@ -281,12 +238,12 @@ function takeAPicture()
   var canvas = document.getElementById('canvas');
   var  context = canvas.getContext('2d');
   var captureButton = document.getElementById('capture');
-
   var constraints = {
     video: true,
   };
 
-  captureButton.addEventListener('click', () => {
+  captureButton.addEventListener('click', () => 
+  {
     if (counterTakePicture ===0) // prevents eventlistener to be  triggered more than once
     {
       $("#loadingImage").show();
@@ -307,7 +264,6 @@ function takeAPicture()
     }
   });
 
-
   // Attach the video stream to the video element and autoplay.
   navigator.mediaDevices.getUserMedia(constraints)
     .then((stream) => {
@@ -316,130 +272,9 @@ function takeAPicture()
 
     });
 }
-//====================================CAMERA CAPTURE ENDS ===============================//
 
-
-
-
-//==================================================================//
-//==================================================================//
-//==================================================================//
-var holder = document.getElementById('holder')
-var blah = document.getElementById('blah'),
-  tests = {
-    filereader: typeof FileReader != 'undefined',
-    dnd: 'draggable' in document.createElement('span'),
-    formdata: !!window.FormData,
-    progress: "upload" in new XMLHttpRequest
-  },
-  support = {
-    filereader: document.getElementById('filereader'),
-    formdata: document.getElementById('formdata'),
-    progress: document.getElementById('progress')
-  },
-  acceptedTypes = {
-    'image/png': true,
-    'image/jpeg': true,
-    'image/gif': true
-  },
-  progress = document.getElementById('uploadprogress'),
-  fileupload = document.getElementById('upload');
-
-"filereader formdata progress".split(' ').forEach(function (api) {
-if (tests[api] === false) {
-  support[api].className = 'fail';
-} else {
-  support[api].className = 'hidden';
-}
-});
-
-function previewfile(file) {
-if (tests.filereader === true && acceptedTypes[file.type] === true) {
-  var reader = new FileReader();
-  reader.onload = function (event) {
-    var image = new Image();
-    blah.src = event.target.result;
-    blah.width = 250; // a fake resize
-    //holder.appendChild(image);
-  };
-
-  reader.readAsDataURL(file);
-}  else {
-  //holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
-  console.log(file);
-}
-}
-
-function readfiles(files) {
- // debugger; //no need for debugger
-  var formData = tests.formdata ? new FormData() : null;
-  for (var i = 0; i < files.length; i++) {
-    if (tests.formdata) formData.append('file', files[i]);
-    previewfile(files[i]);
-  }
-
-  // now post a new XHR request
-  if (tests.formdata) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/devnull.php');
-    xhr.onload = function() {
-      progress.value = progress.innerHTML = 100;
-    };
-
-    if (tests.progress) {
-      xhr.upload.onprogress = function (event) {
-        if (event.lengthComputable) {
-          var complete = (event.loaded / event.total * 100 | 0);
-          progress.value = progress.innerHTML = complete;
-        }
-      }
-    }
-
-    xhr.send(formData);
-  }
-}
-
-if (tests.dnd) {
-
-holder.ondragover = function () { this.className = 'hover'; return false; };
-holder.ondragend = function () { this.className = ''; return false; };
-holder.ondrop = function (e) {
-  this.className = '';
-  e.preventDefault();
-  readfiles(e.dataTransfer.files);
-
-}
-} else {
-fileupload.className = 'hidden';
-fileupload.querySelector('input').onchange = function () {
-  readfiles(this.files);
-};
-}
-
-function readURL(input) {
-         if (input.files && input.files[0]) {
-             var reader = new FileReader();
-
-             reader.onload = function (e) {
-                 $('#blah')
-                     .attr('src', e.target.result);
-             };
-
-             reader.readAsDataURL(input.files[0]);
-         }
-     }
-
-
-//==================================================================//
-//==================================================================//
-//==================================================================//
-
-
-
-
-//==================================================================//
-//==================== Beginning of Wikipedia API ==================//
-//==================================================================//
+//========================== Wikipedia API starts here ========================//
+//=============================================================================//
 function wikipedia(keyword)
 {
   $.ajax({
@@ -470,19 +305,9 @@ function wikipedia(keyword)
     }
   });  
 }       
-     
 
-
-//==================================================================//
-//==================================================================//
-//==================================================================//
-
-
-//==================================================================//
-//====================== Beginning of Yummly API ===================//
-//==================================================================//
-
-
+//====================== Yummly Recipe API starts here ========================//
+//=============================================================================//
 
 function mainYummly(foodImageItem) 
 {
@@ -524,6 +349,8 @@ function mainYummly(foodImageItem)
 }
 
 
+//====================== Create Recipe Divs Function Starts here ===================//
+//=============================================================================//
 function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
 {
   //holder-recipe
@@ -546,9 +373,200 @@ function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
   "</div>");
 }
 
-//==================================================================//
-//==================================================================//
-//==================================================================//
 
+//===================drop_handler will send dropped image information into imgurUpload function ===  ==============//
+//=================================================================================================================//
+function drop_handler(ev) 
+{
+  console.log("Drop");
+  ev.preventDefault();
+  console.log(ev.dataTransfer.files);
+  // If dropped items aren't files, reject them
+  var dt = ev.dataTransfer.files;
+  if (dt.length) 
+  {
+    // Use DataTransferItemList interface to access the file(s)
+        console.log("imgur function");
+        $("#loadingImage").show();
+        imgurUpload(dt);
+  }
+}
+
+//===================dragover_handler for drag and drop functionality  ==============//
+//=============================================================================//
+function dragover_handler(ev) 
+{
+  console.log("dragOver");
+  // Prevent default select and drag behavior
+  ev.preventDefault();
+}
+
+//===================dragend_handler will remove temporal drag data for drag and drop functionality  ==============//
+//=================================================================================================================//
+function dragend_handler(ev) 
+{
+  console.log("dragEnd");
+  // Remove all of the drag data
+  var dt = ev.dataTransfer;
+  if (dt.items) {
+    // Use DataTransferItemList interface to remove the drag data
+    for (var i = 0; i < dt.items.length; i++) {
+      dt.items.remove(i);
+    }
+  } else {
+    // Use DataTransfer interface to remove the drag data
+    ev.dataTransfer.clearData();
+  }
+}
+
+//===========================Function to handle or Drag n Drop events============================//
+//===============================================================================================//
+
+
+function mainDragnDrop()
+{
+  "filereader formdata progress".split(' ').forEach(function (api) 
+  {
+    if (tests[api] === false) 
+    {
+      support[api].className = 'fail';
+    } else 
+    {
+      support[api].className = 'hidden';
+    }
+  });
+
+  if (tests.dnd) 
+  {
+    holder.ondragover = function () { this.className = 'hover'; return false; };
+    holder.ondragend = function () { this.className = ''; return false; };
+    holder.ondrop = function (e) 
+    {
+      this.className = '';
+      e.preventDefault();
+      readfiles(e.dataTransfer.files);
+    }
+  } else 
+  {
+    fileupload.className = 'hidden';
+    fileupload.querySelector('input').onchange = function () 
+    {
+      readfiles(this.files);
+    };
+  }
+}
+
+//=============This function will check if any file has been drag and droppped and if the file type is an image=====//
+//==================================================================================================================//
+function previewfile(file) 
+{
+  if (tests.filereader === true && acceptedTypes[file.type] === true) 
+  {
+    var reader = new FileReader();
+    reader.onload = function (event) 
+    {
+      var image = new Image();
+      blah.src = event.target.result;
+      blah.width = 250; // a fake resize
+    }; reader.readAsDataURL(file);
+  } else 
+  {
+    //holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
+    console.log(file);
+  }
+}
+
+//==================This function will update the image data for the file that was drag and dropped======= =========//
+//==================================================================================================================//
+function readfiles(files) 
+{
+ // debugger; //no need for debugger now
+  var formData = tests.formdata ? new FormData() : null;
+  for (var i = 0; i < files.length; i++) 
+  {
+    if (tests.formdata) formData.append('file', files[i]);
+    previewfile(files[i]);
+  }
+
+  // now post a new XHR request
+  if (tests.formdata) 
+  {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/devnull.php');
+    xhr.onload = function() 
+    {
+      progress.value = progress.innerHTML = 100;
+    };
+
+    if (tests.progress) 
+    {
+      xhr.upload.onprogress = function (event) 
+      {
+        if (event.lengthComputable) 
+        {
+          var complete = (event.loaded / event.total * 100 | 0);
+          progress.value = progress.innerHTML = complete;
+        }
+      }
+    }
+    xhr.send(formData);
+  }
+}
+
+//==================This function will update the #blah image source to properly display the uploaded image =========//
+//==================================================================================================================//
+function readURL(input) 
+{
+  if (input.files && input.files[0]) 
+  {
+    var reader = new FileReader();
+    reader.onload = function (e) 
+    {
+    $('#blah').attr('src', e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+  };
+}
+
+//====================== Main Program Starts Here ===================//
+//===================================================================//
+mainDragnDrop();
+$("document").ready(function() 
+{
+  event.preventDefault();
+  $("canvas").hide();
+  $("#loadingImage").hide();
+  $("#hiddeableCamera").hide(); 
+  //$("#player").hide();
+  $('input[type=file]').on("change", function() 
+  {
+    $("#loadingImage").show();
+    event.preventDefault();
+    var files = $(this).get(0).files;
+    console.log(files);
+    imgurUpload(files);
+    var files = 0;
+  });
+
+  $("#refreshbutton").on('click', function()
+  {
+    window.location.reload(true);
+  });
+
+  $(document.body).on('click','video', function()
+  {
+    event.preventDefault(); 
+    takeAPicture();
+  });
+
+  firebase.database().ref().child('node-client').child('messages').on('child_changed',function() 
+  {
+    $("#loadingImage").hide();
+    addYummly();
+  });
+
+});
+//====================== Main Program Ends Here ====================//
+//==================================================================//
 
 
