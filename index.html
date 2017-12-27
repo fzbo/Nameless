@@ -3,149 +3,131 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-
     <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash|Bungee+Shade|Calligraffitti|Itim|Satisfy" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css" />
     <title>What the Fork!</title>
   </head>
+
   <body>
+    <!--================================ NAV BAR STARTS HERE ================================-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+      <img src="assets/img/whattheforklogo.png" width="30" height="30" alt="">
+      <a class="navbar-brand" href="#">WTF</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Which APIs?</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Documentation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Tech Talk</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="button" style="width:75px" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>  
+    <!--================================ NAV BAR ENDS HERE ===================================-->
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-    <img src="assets/img/whattheforklogo.png" width="30" height="30" alt="">
-    <a class="navbar-brand" href="#">WTF</a>
-
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Which APIs?</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Documentation</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Tech Talk</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="button" style="width:75px" type="submit">Search</button>
-      </form>
-    </div>
-    </nav>
-
-<!--Jumbotron-->
-<center>
-  <div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <h1 class="display-3" style="font-family: 'Bungee Shade', cursive;"><img src="assets/img/whattheforklogo.png" width="75" height="75" alt="">What the Fork!</h1>
-      <p class="lead" style="font-family: 'Calligraffitti', cursive; font-size: 200%;">The World's leading Recipe Finder!</p>
-    </div>
-  </div>
-</center>
-
-
-<div class="container">
-  <div class="row holderRecipe">
-  <div class="col-md-12">
+    <!--================================ HEADER STARTS HERE ================================-->
     <center>
-    <article id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);" ondragend="dragend_handler(event);">
-      <div id="holder">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-3" style="font-family: 'Bungee Shade', cursive;"><img src="assets/img/whattheforklogo.png" width="75" height="75" alt="">What the Fork!</h1>
+          <p class="lead" style="font-family: 'Calligraffitti', cursive; font-size: 200%;">The World's leading Recipe Finder!</p>
+        </div>
+      </div>
+    </center>
+    <!--================================ HEADER ENDS HERE ==================================-->
+
+  <!--================================ CONTAINER STARTS HERE ================================-->
+  <div class="container">
+    <div class="row holderRecipe">
+      <!--================================ UPLOADING AND LOADING AREA STARTS HERE ================================-->  
+      <div class="col-md-12">
+        <center>
+          <article id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);" ondragend="dragend_handler(event);">
+          <div id="holder">
           <p id="dragLabel">Drag & Drop Your Image Here or Click on the camera to take a picture</p>
-        <!-- camera capture starts here -->
+          <!-- camera capture starts here -->
           <video id="player" poster="assets/img/cameraIcon.png" autoplay width=40% height=40% ></video>
           <div id="hiddeableCamera" style="background-size: 100% 100%; background-image: url(assets/img/cameraIcon.png); width:30%; height=:30%; "></div>
           <canvas id="canvas" width=100% height=100%></canvas>
           <!-- camera capture ends here -->
           <img id="blah" src="assets/img/wtf-logo-neutrals.png" alt="" />
           <img id="loadingImage" src="assets/img/loadingIcon.gif" alt="" />
+          </div>
+          <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
+          <p id="filereader">File API & FileReader API not supported</p>
+          <p id="formdata">XHR2's FormData is not supported</p>
+          <p id="progress">XHR2's upload progress isn't supported</p>
+          <!-- ================================================================= -->
+          <!-- VERY IMPORTANT DONT EDIT THIS BUTTON  BECAUSE IT WILL UPLOAD ITEMS TO IMGUR -->
+          <form id="imgur">
+           <input type="file" class="imgur" accept="image/*" data-max-size="5000" onchange="readURL(this);"/>
+          </form>
+          <button id="capture" class="btn btn-primary">Take a Shot!</button>
+          <button class="btn btn-danger" id="refreshbutton">New Search!</button>
+          <!-- END OF VERY IMPORTANT IMGUR BUTTON-->
+          <!-- ================================================================= -->
+          </article>
+        </center>
       </div>
-      <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
-      <p id="filereader">File API & FileReader API not supported</p>
-      <p id="formdata">XHR2's FormData is not supported</p>
-      <p id="progress">XHR2's upload progress isn't supported</p>
+      <!--================================ UPLOADING AND LOADING AREA ENDS HERE ================================-->
 
-<!-- ================================================================= -->
-      <!-- VERY IMPORTANT DONT EDIT THIS BUTTON  BECAUSE IT WILL UPLOAD ITEMS TO IMGUR -->
-      <form id="imgur">
-        <input type="file" class="imgur" accept="image/*" data-max-size="5000" onchange="readURL(this);"/>
-      </form>
-      <button id="capture" class="btn btn-primary">Take a Shot!</button>
-      <button class="btn btn-danger" id="refreshbutton">New Search!</button>
-      <!-- END OF VERY IMPORTANT IMGUR BUTTON-->
-<!-- ================================================================= -->
-
-    </article>
-    </center>
-  </div>
-
-<!--Recipe-->
-
-    <div class="container-fluid col-lg-12 holderRecipe">
-      <div class="container col-md-8 col-md-offset-2">
-  <!-- **********************  buttons ********************** -->
-        <div class="row" id="ingredientList">
-
-        </div>
-      </div>
-    </div>  
-
-
-
-
-
-
-
-    <div class="container-fluid col-lg-12 holderRecipe">
-      <div class="container col-md-8 col-md-offset-2">
-  <!-- **********************  ROW-00: (header)  ********************** -->
-        <div class="row">
-          <header class="jumbotron">
-            <h1 class="text-center ">Wikipedia Entry</h1>
-          </header>
-        </div>
-
-    <!-- **********************  ROW-02: (Wikipedia Information panel)  ********************** -->
-        <div class="row">
-          <div class="recipeDisplay panel panel-info">
-            <div class="panel-heading">
-              <em>Let's get acquainted</em></div>
-            <div class="panel-body" id="ingredientInfo"></div>
+      <!--================================ DYNAMICALLY CREATED BUTTONS AREA STARTS HERE ================================-->
+      <div class="container-fluid col-lg-12 holderRecipe">
+        <div class="container col-md-8 col-md-offset-2">
+          <div class="row" id="ingredientList">
           </div>
         </div>
+      </div> 
+      <!--================================ DYNAMICALLY CREATED BUTTONS AREA ENDS HERE ==================================--> 
+
+
+
+      <div class="container-fluid col-lg-12 holderRecipe">
+        <!--================================ WIKIPEDIA PANEL STARTS HERE ==================================--> 
+        <div class="container col-md-8 col-md-offset-2">
+          <!-- **********************  ROW-00: (header)  ******* -->
+          <div class="row">
+            <header class="jumbotron">
+              <h1 class="text-center ">Wikipedia Entry</h1>
+            </header>
+          </div>
+          <!-- ******ROW-02: (Wikipedia Information panel)****** -->
+          <div class="row">
+            <div class="recipeDisplay panel panel-info">
+              <div class="panel-heading"><em>Let's get acquainted</em></div>
+              <div class="panel-body" id="ingredientInfo"></div>
+            </div>
+          </div>
+        </div>
+        <!--================================ WIKIPEDIA PANEL ENDS HERE ==================================--> 
+
+        <!--================================ YUMMLY PANEL STARTS HERE ==================================--> 
+        <div class="row" id="yummlyIngredientList"></div>
+        <!--================================ YUMMLY PANEL ENDS HERE ==================================--> 
       </div>
-    <!-- **********************  ROW-03: (Yummly Ingredient List)  ********************** -->
-      <div class="row" id="yummlyIngredientList">
-      </div>
-
-
-</div>
-
+    </div>
   </div>
-  </div>
+  <!--================================ CONTAINER ENDS HERE ================================-->
 
 
-
-<div id="postDataHere"></div>
-
-
-
-
-
-
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
-<script src="assets/js/logic.js"></script>
-
-
-
-
+  <!--================================ SCRIPTS STARTS HERE ================================-->
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+  <script src="assets/js/logic.js"></script>
+  <!--================================ SCRIPTS ENDS HERE ================================-->
   </body>
 </html>

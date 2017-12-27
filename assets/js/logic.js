@@ -68,7 +68,6 @@ function addYummly()
   logsRef1.once('value', function(snap) 
   {
     ++counterToAddData; 
-    $("#postDataHere").html("");
     console.log(Object.values(snap.val()));
     y=snap.val().images[0].classifiers[0].classes;
     lastLayer= y[0];
