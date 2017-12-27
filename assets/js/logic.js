@@ -72,12 +72,13 @@ function addYummly()
       ++counterToAddData; 
       $("#postDataHere").html("");
       console.log(Object.values(snap.val()));
-      y = Object.values(snap.val());
-      console.log("console.log this: " +y);
-      y= Object.values(y[0])[1][0];
-      y= Object.values(y)[0];
-      y= Object.values(y)[0];
-      lastLayer= Object.values(y)[0];
+      //y = Object.values(snap.val());
+      // console.log("console.log this: " +y);
+      // y= Object.values(y[0])[1][0];
+      // y= Object.values(y)[0];
+      // y= Object.values(y)[0];
+      y=snap.val().images[0].classifiers[0].classes;
+      lastLayer= y[0];
       console.log("Watson information : ", lastLayer);
 var valueDataBase;  
 ref.child('images').child('TestingImage').once("value",function(snapData){
@@ -87,7 +88,7 @@ console.log("compared to " + imageToUse);
       if (valueDataBase === imageToUse)
       {  
       console.log("inside if");
-      addToDataBase(lastLayer[0].class, ref);
+      addToDataBase(lastLayer.class, ref);
       counterToAddData = 0 ;
       }
 });
@@ -231,7 +232,7 @@ function imgurUpload($files)
       console.log(JSON.parse(response).data.link);
     });
   }
-setTimeout(function(){ addYummly(); }, 2000);
+setTimeout(function(){ addYummly(); }, 10000);
   
 }
 
@@ -277,7 +278,7 @@ function imgurUploadCamera($files)
       firebase.database().ref().child('node-client').child('images').child('TestingImage').set(imageToUse);
       console.log(JSON.parse(response).data.link);
     });
-setTimeout(function(){ addYummly(); }, 2000);
+setTimeout(function(){ addYummly(); }, 10000);
   
 
 }
