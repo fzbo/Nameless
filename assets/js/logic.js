@@ -31,6 +31,7 @@ function drop_handler(ev) {
   {
     // Use DataTransferItemList interface to access the file(s)
         console.log("imgur function");
+        $("#loadingImage").show();
         imgurUpload(dt);
   }
 }
@@ -241,9 +242,11 @@ function imgurUploadCamera($files)
 $("document").ready(function() {
   event.preventDefault();
   $("canvas").hide();
+  $("#loadingImage").hide();
   $("#hiddeableCamera").hide(); 
   //$("#player").hide();
   $('input[type=file]').on("change", function() {
+    $("#loadingImage").show();
     event.preventDefault();
     var files = $(this).get(0).files;
     console.log(files);
@@ -262,7 +265,8 @@ $("document").ready(function() {
   });
 
   firebase.database().ref().child('node-client').child('messages').on('child_changed',function() {
-    setTimeout(function(){ addYummly(); }, 1000);
+    $("#loadingImage").hide();
+    addYummly();
   });
 
 
@@ -285,6 +289,7 @@ function takeAPicture()
   captureButton.addEventListener('click', () => {
     if (counterTakePicture ===0) // prevents eventlistener to be  triggered more than once
     {
+      $("#loadingImage").show();
       counterTakePicture++;
       // Draw the video frame to the canvas.
       context.drawImage(player, 0, 0, canvas.width, canvas.height); // remove line to prevent duplicate images
