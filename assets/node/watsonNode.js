@@ -57,8 +57,8 @@ var watson = require('watson-developer-cloud');
 var fs = require('fs');
 
 var visual_recognition = watson.visual_recognition({
-  api_key: 'eccb86215ba03e3b5ff9877ce2b28b89c4ac1c57',
-  //api_key: '6de8f853781dde067ae4c1ebde94f4579a4e8a6c', //Charlie
+  //api_key: 'eccb86215ba03e3b5ff9877ce2b28b89c4ac1c57',
+  api_key: '6de8f853781dde067ae4c1ebde94f4579a4e8a6c', //Charlie
   version: 'v3',
   version_date: '2016-05-20'
 });
