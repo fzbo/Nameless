@@ -252,7 +252,7 @@ $("document").ready(function() {
   });
   $('#blah').on('load', function () {
   event.preventDefault();
-  setTimeout(function(){ addYummly(); }, 5000);
+  setTimeout(function(){ addYummly(); }, 8000);
   });
 
   $("#refreshbutton").on('click', function(){
