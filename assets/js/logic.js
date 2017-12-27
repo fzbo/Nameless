@@ -250,10 +250,6 @@ $("document").ready(function() {
     imgurUpload(files);
     var files = 0;
   });
-  $('#blah').on('load', function () {
-  event.preventDefault();
-  setTimeout(function(){ addYummly(); }, 8000);
-  });
 
   $("#refreshbutton").on('click', function(){
     window.location.reload(true);
@@ -264,6 +260,11 @@ $("document").ready(function() {
     //$("#player").show();
     takeAPicture();
   });
+
+  firebase.database().ref().child('node-client').child('messages').on('child_changed',function() {
+    setTimeout(function(){ addYummly(); }, 1000);
+  });
+
 
 });
 
