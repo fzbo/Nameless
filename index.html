@@ -57,7 +57,7 @@
       <div class="col-md-12">
         <center>
           <article id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);" ondragend="dragend_handler(event);">
-          <div class="uploadingDiv" id="holder">
+          <div id="holder">
             <p id="dragLabel">Drag & Drop Your Image Here or Click on the camera to take a picture</p>
             <!-- camera capture starts here -->
             <video id="player" poster="assets/img/cameraIcon.png" autoplay width=40% height=40% ></video>
@@ -76,7 +76,7 @@
           <form id="imgur">
            <input type="file" class="imgur" accept="image/*" data-max-size="5000" onchange="readURL(this);"/>
           </form>
-          <button id="capture" class="btn btn-primary uploadingDiv">Take a Shot!</button>
+          <button id="capture" class="btn btn-primary">Take a Shot!</button>
           <button class="btn btn-danger" id="refreshbutton">New Search!</button>
           <!-- END OF VERY IMPORTANT IMGUR BUTTON-->
           <!-- ================================================================= -->
