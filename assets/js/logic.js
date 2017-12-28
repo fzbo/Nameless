@@ -28,7 +28,7 @@ firebase.initializeApp(config);
 //======================Global DOM Variables to be handled in main process=========================//
 //=================================================================================================//
 var holder = document.getElementById('holder')
-var blah = document.getElementById('blah'),
+var blah = document.getElementById('player'),
   tests = 
   {
     filereader: typeof FileReader != 'undefined',
@@ -255,12 +255,12 @@ function takeAPicture()
       console.log(dataURL);
       console.log("passing in");
       imgurUploadCamera(dataURL);
-      $("#blah").attr('src','data:image/png;base64,'+dataURL);
+      //$("#blah").attr('src','data:image/png;base64,'+dataURL); this label was used for presentation purposes before 12/28/2017
       player.srcObject.getVideoTracks().forEach(track => track.stop());
       console.log(player.srcObject);
       $("#dragLabel").remove();
       $("#player").remove();
-      $("#holder").prepend('<p id="dragLabel">Drag & Drop Your Image Here or Click on the camera to take a picture</p><video id="player" poster="assets/img/cameraIcon.png" autoplay width=40% height=40% ></video>');
+      $("#holder").prepend('<p id="dragLabel">Drag & Drop Your Image Here or Click on the camera to take a picture</p><video id="player" poster="data:image/png;base64,'+dataURL +'" autoplay width=40% height=40% ></video>');
     }
   });
 
@@ -467,7 +467,7 @@ function previewfile(file)
     reader.onload = function (event) 
     {
       var image = new Image();
-      blah.src = event.target.result;
+      blah.poster = event.target.result;
       blah.width = 250; // a fake resize
     }; reader.readAsDataURL(file);
   } else 
@@ -523,7 +523,7 @@ function readURL(input)
     var reader = new FileReader();
     reader.onload = function (e) 
     {
-    $('#blah').attr('src', e.target.result);
+    $('#player').attr('poster', e.target.result);
     };
     reader.readAsDataURL(input.files[0]);
   };
@@ -534,7 +534,7 @@ function readURL(input)
 mainDragnDrop();
 $("document").ready(function() 
 {
-  event.preventDefault();
+  //event.preventDefault();
   $("#ingredientList").hide();
   $(".wikipediaYummly").hide();
   $("canvas").hide();
@@ -556,9 +556,9 @@ $("document").ready(function()
     window.location.reload(true);
   });
 
-  $(document.body).on('click','video', function()
+  $(document.body).on('click','#openCamera', function()
   {
-    event.preventDefault(); 
+    //event.preventDefault(); 
     takeAPicture();
   });
 
