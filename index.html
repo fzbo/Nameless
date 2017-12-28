@@ -57,27 +57,42 @@
       <div class="col-md-12">
         <center>
           <article id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);" ondragend="dragend_handler(event);">
-          <div id="holder">
+          <div class="hideOnMobileDiv" id="holder">
             <p id="dragLabel">Drag & Drop Your Image Here or Click on the camera to take a picture</p>
             <!-- camera capture starts here -->
             <video id="player" poster="assets/img/cameraIcon.png" autoplay width=40% height=40% ></video>
             <div id="hiddeableCamera" style="background-size: 100% 100%; background-image: url(assets/img/cameraIcon.png); width:30%; height=:30%; "></div>
             <canvas id="canvas" width=100% height=100%></canvas>
             <!-- camera capture ends here -->
-            <img id="blah" src="assets/img/wtf-logo-neutrals.png" alt="" />
-            <img id="loadingImage" src="assets/img/loadingIcon.gif" alt="" />
           </div>
+          <!-- <img id="blah" src="assets/img/wtf-logo-neutrals.png" alt="" /> this line was used before below camera, it was changed after 12/27/2017   -->
+          <img id="loadingImage" src="assets/img/loadingIcon.gif" alt="" />
           <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
           <p id="filereader">File API & FileReader API not supported</p>
           <p id="formdata">XHR2's FormData is not supported</p>
           <p id="progress">XHR2's upload progress isn't supported</p>
           <!-- ================================================================= -->
           <!-- VERY IMPORTANT DONT EDIT THIS BUTTON  BECAUSE IT WILL UPLOAD ITEMS TO IMGUR -->
-          <form id="imgur">
-           <input type="file" class="imgur" accept="image/*" data-max-size="5000" onchange="readURL(this);"/>
-          </form>
-          <button id="capture" class="btn btn-primary">Take a Shot!</button>
-          <button class="btn btn-danger" id="refreshbutton">New Search!</button>
+
+          <div class="row">
+              <div class="col-sm-4">
+                <button id="openCamera" class="btn btn-dark btn-lg btn-block">Open Camera</button>
+              </div>
+              <div class="col-sm-4">
+                <button id="capture" class="btn btn-success btn-lg btn-block">Capture</button>
+              </div>
+              <div class="col-sm-4">
+                <button class="btn btn-warning btn-lg btn-block" id="refreshbutton">Reset All!</button>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                <form id="imgur">
+                  <input type="file" class="imgur btn btn-primary btn-lg btn-block" accept="image/*" data-max-size="5000" onchange="readURL(this);"/>
+                </form>
+              </div>
+  
+          </div>
           <!-- END OF VERY IMPORTANT IMGUR BUTTON-->
           <!-- ================================================================= -->
           </article>
@@ -123,7 +138,6 @@
     </div>
   </div>
   <!--================================ CONTAINER ENDS HERE ================================-->
-
 
   <!--================================ SCRIPTS STARTS HERE ================================-->
   <script src="https://code.jquery.com/jquery.js"></script>
