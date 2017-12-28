@@ -123,6 +123,7 @@ function addButton(goodData2)
     color=0;
   }
   wikipedia(goodData2); // this will send the search word to wikipedia API and display the information Properly
+  $("#ingredientList").show();
   mainYummly(finalIngredientList);
 }
 
@@ -297,7 +298,8 @@ function wikipedia(keyword)
 
       // remove cite error
       blurb.find('.mw-ext-cite-error').remove();
-      $('#ingredientInfo').html($(blurb).find('p')); 
+      $('#ingredientInfo').html($(blurb).find('p'));
+      $(".wikipediaYummly").show(); 
       counterToAddData= 0; // reset button counter
     },
     error: function (errorMessage) {
@@ -533,6 +535,8 @@ mainDragnDrop();
 $("document").ready(function() 
 {
   event.preventDefault();
+  $("#ingredientList").hide();
+  $(".wikipediaYummly").hide();
   $("canvas").hide();
   $("#loadingImage").hide();
   $("#hiddeableCamera").hide(); 
