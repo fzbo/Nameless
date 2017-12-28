@@ -86,7 +86,8 @@ iframe{
 @media only screen 
 and (min-device-width : 360px) 
 and (max-device-width : 667px) {
-.hideOnMobileDiv{display: none;}
+/*.hideOnMobileDiv{display: none;}*/
 #capture{display: none;}
+#openCamera{display: none;}
 #blah{display: block;}
 }
