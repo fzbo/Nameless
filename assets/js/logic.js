@@ -544,7 +544,7 @@ $("document").ready(function()
   $('input[type=file]').on("change", function() 
   {
     $("#loadingImage").show();
-    event.preventDefault();
+    //event.preventDefault();
     var files = $(this).get(0).files;
     console.log(files);
     imgurUpload(files);
