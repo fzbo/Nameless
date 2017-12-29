@@ -86,6 +86,11 @@ iframe{
     box-shadow: 10px 10px 5px #aaaaaa;
 }
 
+/*iphone showed a play button in the middle of the player, and the below css will remove that play button to display the pictures properly*/
+*::-webkit-media-controls-start-playback-button {
+  display: none!important;
+  -webkit-appearance: none;
+}
 
 
 @media only screen 
