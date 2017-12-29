@@ -239,7 +239,13 @@ function takeAPicture()
   var  context = canvas.getContext('2d');
   var captureButton = document.getElementById('capture');
   var constraints = {
-    video: true,
+   video: {
+    mandatory: {
+      maxWidth: 1280,
+      maxHeight: 720
+      
+    }
+  },
   };
 
   captureButton.addEventListener('click', () => 
@@ -249,7 +255,10 @@ function takeAPicture()
       $("#loadingImage").show();
       counterTakePicture++;
       // Draw the video frame to the canvas.
+      context.canvas.width = 1280;
+      context.canvas.height = 720;
       context.drawImage(player, 0, 0, canvas.width, canvas.height); // remove line to prevent duplicate images
+      console.log(context);
       var dataURL = canvas.toDataURL();
       dataURL = dataURL.replace(/data:image\/png;base64,/i, ''); // Use this line because imgur doesn't accet base64 and we need for watson to work
       console.log(dataURL);
