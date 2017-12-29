@@ -97,12 +97,13 @@ iframe{
 
 #player{
     padding: 30px 30px 30px 30px;
-    border: 1px solid #BFBFBF;
     background-color: white;
     box-shadow: 10px 10px 5px #aaaaaa;
-    width: 50%;
+    width: 70%;
     height: 40vh;
 }
+
+
 
 
 
@@ -136,4 +137,6 @@ and (max-device-width : 667px) {
 #capture{display: none;}
 #openCamera{display: none;}
 #blah{display: block;}
+.mediaQuery { min-width: 100%;}
+#player { min-width: 90%;}
 }
