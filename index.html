@@ -11,7 +11,7 @@
   <body>
     <!--================================ NAV BAR STARTS HERE ================================-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-      <img src="assets/img/whattheforklogo.png" width="30" height="30" alt="">
+      <img src="assets/img/cameraIcon.png" width="30" height="30" alt="">
       <a class="navbar-brand" href="#">WTF</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -43,7 +43,7 @@
     <center>
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
-          <h1 class="display-3" style="font-family: 'Bungee Shade', cursive;"><img src="assets/img/whattheforklogo.png" width="75" height="75" alt="">What the Fork!</h1>
+          <h1 class="display-3" style="font-family: 'Bungee Shade', cursive;"><img src="assets/img/cameraIcon.png" width="75" height="75" alt="">What the Fork!</h1>
           <p class="lead" style="font-family: 'Calligraffitti', cursive; font-size: 200%;">The World's leading Recipe Finder!</p>
         </div>
       </div>
@@ -80,7 +80,7 @@
                 <button id="openCamera" class="btn btn-dark btn-lg btn-block m-2">Open Camera</button>
               </div>
               <div class="col-sm-4">
-                <button id="capture" class="btn btn-success btn-lg btn-block m-2">Capture</button>
+                <button id="capture"></button>
               </div>
               <div class="col-sm-4">
                 <button class="btn btn-warning btn-lg btn-block m-2" id="refreshbutton">Reset All!</button>
@@ -93,7 +93,6 @@
                   <img id="loadingImage" src="assets/img/loadingIcon.gif" alt="" />
                 </form>
               </div>
-  
           </div>
           <!-- END OF VERY IMPORTANT IMGUR BUTTON-->
           <!-- ================================================================= -->
@@ -104,8 +103,8 @@
 
       <!--================================ DYNAMICALLY CREATED BUTTONS AREA STARTS HERE ================================-->
       <div class="container-fluid col-lg-12 holderRecipe">
-        <div class="container col-md-8 col-md-offset-2">
-          <div class="row" id="ingredientList">
+        <div class="container col-md-12 col-md-offset-2">
+          <div class="row m-12" id="ingredientList">
               <div class="col-md-12"><p><h1>Possible Results</h1></p></div>
           </div>
         </div>
@@ -115,7 +114,7 @@
 
       <div class="container-fluid col-lg-12 holderRecipe wikipediaYummly">
         <!--================================ WIKIPEDIA PANEL STARTS HERE ==================================--> 
-        <div class="container col-md-8 col-md-offset-2">
+        <div class="container col-md-12 col-md-offset-2">
           <!-- **********************  ROW-00: (header)  ******* -->
           <div class="row">
             <header class="jumbotron">
