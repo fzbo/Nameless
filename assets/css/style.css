@@ -79,7 +79,12 @@ iframe{
   min-height: 600px;
 }
 
-
+.hideOnMobileDiv, #player{
+    padding: 30px 30px 30px 30px;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+}
 
 
 
