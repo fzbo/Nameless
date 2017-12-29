@@ -383,7 +383,6 @@ function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
   "</div>");
 }
 
-
 //===================drop_handler will send dropped image information into imgurUpload function ===  ==============//
 //=================================================================================================================//
 function drop_handler(ev) 
@@ -449,10 +448,11 @@ function mainDragnDrop()
   if (tests.dnd) 
   {
     holder.ondragover = function () { this.className = 'hover'; return false; };
-    holder.ondragend = function () { this.className = ''; return false; };
+    holder.ondragend = function () { this.className = 'hideOnMobileDiv'; return false; };
+    holder.ondragleave = function () { this.className = 'hideOnMobileDiv'; return false; };
     holder.ondrop = function (e) 
     {
-      this.className = '';
+      this.className = 'hideOnMobileDiv';
       e.preventDefault();
       readfiles(e.dataTransfer.files);
     }
