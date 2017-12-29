@@ -148,7 +148,9 @@ function imgurUpload($files)
 
     // Replace ctrlq with your own API key
     var apiUrl = 'https://api.imgur.com/3/image';
-    var apiKey = 'cd2b7a5d18eaa23';
+    var apiKey = 'cd2b7a5d18eaa23'; // free api key
+    //var apiKey = 'c70f5706c082422';
+    //var apiKey = 'e32a56a55d15639';
 
     var settings = {
       async: false,
@@ -194,7 +196,9 @@ function imgurUploadCamera($files)
     console.log("Uploading file to Imgur..");
     // Replace ctrlq with your own API key
     var apiUrl = 'https://api.imgur.com/3/image';
-    var apiKey = 'cd2b7a5d18eaa23';
+    var apiKey = 'cd2b7a5d18eaa23';  // free api key
+    //var apiKey = 'c70f5706c082422';
+    //var apiKey = 'e32a56a55d15639';
 
     var settings = {
       async: false,
@@ -478,7 +482,7 @@ function previewfile(file)
     {
       var image = new Image();
       blah.poster = event.target.result;
-      blah.width = 250; // a fake resize
+      //blah.width = 250; // a fake resize
     }; reader.readAsDataURL(file);
   } else 
   {
