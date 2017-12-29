@@ -59,11 +59,14 @@
           <article id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);" ondragend="dragend_handler(event);" ondragleave = "dragleave_handler(event);">
           <div class="hideOnMobileDiv" id="holder">
             <p id="dragLabel">Drag & Drop Your Image Here or Click on the camera to take a picture</p>
-            <!-- camera capture starts here -->
-            <video id="player" poster="assets/img/cameraIcon.png" autoplay width=40% height=40% ></video>
+            <!-- ======================================================================== -->
+            <!-- =======================camera capture starts here======================= -->
+            <video id="player" poster="assets/img/cameraIcon.png" autoplay width=40% height=40%></video>
+            <input type="file" name="image" accept="image/*" capture="environment">
             <div id="hiddeableCamera" style="background-size: 100% 100%; background-image: url(assets/img/cameraIcon.png); width:30%; height=:30%; "></div>
             <canvas id="canvas" width=100% height=100%></canvas>
-            <!-- camera capture ends here -->
+            <!-- =======================camera capture ends here======================= -->
+            <!-- ====================================================================== -->
           </div>
           <!-- <img id="blah" src="assets/img/wtf-logo-neutrals.png" alt="" /> this line was used before below camera, it was changed after 12/27/2017   -->
           <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
