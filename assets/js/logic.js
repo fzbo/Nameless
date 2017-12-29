@@ -461,6 +461,7 @@ function mainDragnDrop()
     fileupload.className = 'hidden';
     fileupload.querySelector('input').onchange = function () 
     {
+      $("#loadingImage").show();
       readfiles(this.files);
     };
   }
@@ -523,12 +524,13 @@ function readfiles(files)
   }
 }
 
-//==================This function will update the #blah image source to properly display the uploaded image =========//
+//==================This function will update the #player image source to properly display the uploaded image =========//
 //==================================================================================================================//
 function readURL(input) 
 {
   if (input.files && input.files[0]) 
   {
+    $("#loadingImage").show();
     var reader = new FileReader();
     reader.onload = function (e) 
     {
