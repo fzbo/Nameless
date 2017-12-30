@@ -116,6 +116,7 @@ iframe{
   overflow:hidden;
   background-image:url('../img/cameraCapture.png');
   background-size: cover;
+  border: none;
 
 }
 
