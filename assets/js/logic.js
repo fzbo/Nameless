@@ -11,6 +11,7 @@ var buttonColors = ["primary","secondary","success","danger","warning","info","l
 var color = 0;
 var ingredientList = [];
 var imageToUse;
+var globalReference; // global firebase yummly database used in addYummly() addToDataBase(lastLayer.class, globalReference);
 
 
 //======================Initialize Firebase=========================//
@@ -71,7 +72,8 @@ function addYummly()
     console.log(Object.values(snap.val()));
     y=snap.val().images[0].classifiers[0].classes;
     lastLayer= y[0];
-    console.log("Watson information : ", lastLayer);
+    createListResponses(y);
+    console.log("Watson information : "+ lastLayer + " "+ y.length);
     var valueDataBase;  
     ref.child('images').child('TestingImage').once("value",function(snapData){
       valueDataBase =snapData.val();
@@ -80,14 +82,31 @@ function addYummly()
       if (valueDataBase === imageToUse)
       {  
         console.log("inside if");
-        addToDataBase(lastLayer.class, ref);
+        globalReference = ref;
+       // addToDataBase(lastLayer.class, ref);
         counterToAddData = 0 ;
       }
     });
   });
 }
 
+//==================This function will show all the possible watson responses in a list where the user will later pick=========//
+//==================================================================================================================//
+function createListResponses(listData)
+{
+  $('.table').html("");
+  $('#possibleResults').append("<table class='table table-hover'><thead><tr><th scope='col'>#</th><th scope='col'>Possible Matches</th><th scope='col'>Add Ingredient</th></tr></thead><tbody class='ingTable'>");
+  var addImageIcon = '<img class="addIcon" src="assets/img/addToList.png">';
+  var getInfoIcon = '<img class="getInfo" src="assets/img/infoIcon.png">'
+  for (var i =0; i<listData.length; i++)
+  {
+    $(".ingTable").append("<tr class='"+ listData[i].class+ "'><th scope='row'>"+ (i+1) +"</th><td>" + listData[i].class + "</td><td class='optionImages'>" + addImageIcon  + getInfoIcon + "</td></tr>");
+  }
+  $("#possibleResults").show();
+}
 
+
+//===================THIS FUNCTION WILL BE TAKEN OUT OF THE CODE WITH THE NEW APP FUNCTIONALITY ====================//
 //==================This function will add the watson responses to a local Array and pass it to  addButton =========//
 //==================================================================================================================//
 function addToDataBase(goodData1, ref1)
@@ -316,6 +335,7 @@ function wikipedia(keyword)
       counterToAddData= 0; // reset button counter
     },
     error: function (errorMessage) {
+      $(".wikipediaYummly").hide(); // hide wikipedia when no data is found for clicked item
     }
   });  
 }       
@@ -549,7 +569,28 @@ function readURL(input)
 mainDragnDrop();
 $("document").ready(function() 
 {
+  $("#possibleResults").on('click', ".getInfo",function(){
+    var clickedResponse = $(this).parent().parent().attr('class');
+    if (clickedResponse != undefined)
+    {
+      console.log("you clicked row" + clickedResponse); // get the class which is the keyword
+      wikipedia(clickedResponse);
+      // addToDataBase(clickedResponse, globalReference);
+
+    }
+  });
+    $("#possibleResults").on('click', ".addIcon",function(){
+    var clickedResponse = $(this).parent().parent().attr('class');
+    if (clickedResponse != undefined)
+    {
+      console.log("you clicked img" + clickedResponse); // get the class which is the keyword
+      //wikipedia(clickedResponse);
+      addToDataBase(clickedResponse, globalReference);
+
+    }
+  });
   //event.preventDefault();
+  $("#possibleResults").hide();
   $("#ingredientList").hide();
   $(".wikipediaYummly").hide();
   $("canvas").hide();
