@@ -76,22 +76,24 @@
           <!-- VERY IMPORTANT DONT EDIT THIS BUTTON  BECAUSE IT WILL UPLOAD ITEMS TO IMGUR -->
 
           <div class="row">
-              <div class="col-sm-4">
+              <div class="col-sm-3">
                 <button id="openCamera" class="btn btn-dark btn-lg btn-block m-2">Open Camera</button>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-3">
                 <button id="capture"></button>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-3">
+                <form id="imgur">
+                  <input id="inputFile" type="file" class="imgur" accept="image/*" data-max-size="5000" onchange="readURL(this);"/>
+                </form>
+              </div>
+              <div class="col-sm-3">
                 <button class="btn btn-warning btn-lg btn-block m-2" id="refreshbutton">Reset All!</button>
               </div>
           </div>
           <div class="row">
               <div class="col-sm-12">
-                <form id="imgur">
-                  <input id="inputFile" type="file" class="imgur btn btn-primary btn-lg btn-block m-2" accept="image/*" data-max-size="5000" onchange="readURL(this);"/>
                   <img id="loadingImage" src="assets/img/loadingIcon.gif" alt="" />
-                </form>
               </div>
           </div>
           <!-- END OF VERY IMPORTANT IMGUR BUTTON-->
