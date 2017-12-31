@@ -501,6 +501,7 @@ function previewfile(file)
     reader.onload = function (event) 
     {
       var image = new Image();
+      var blah = document.getElementById('player')
       blah.poster = event.target.result;
       //blah.width = 250; // a fake resize
     }; reader.readAsDataURL(file);
