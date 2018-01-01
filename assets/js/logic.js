@@ -617,6 +617,7 @@ $("document").ready(function()
     var files = $(this).get(0).files;
     console.log(files);
     imgurUpload(files);
+    document.getElementById("imgur").reset();// reset input thumbnail in mobile devices
     var files = 0;
   });
 
