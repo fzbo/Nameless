@@ -211,7 +211,7 @@ function imgurUpload($files)
       console.log(imageToUse);
       firebase.database().ref().child('node-client').child('images').child('TestingImage').set(imageToUse);
       console.log(JSON.parse(response).data.link);
-      $( ".resetThumbnail" ).trigger( "click" ); // reset input thumbnail in mobile devices
+      document.getElementById("inputFile").reset();// reset input thumbnail in mobile devices
     });
   }
 }
