@@ -196,9 +196,9 @@ display: block;
 .mediaQuery { min-width: 100%;}
 #player { min-width: 90%;}
 .getInfo{
-height: 5vh; width: 5vh; object-fit: contain;
+height: 2vh; width: 2vh; object-fit: contain;
 }
 .addIcon{
-height: 10vh; width: 10vh; object-fit: contain;
+height: 4vh; width: 4vh; object-fit: contain;
 }
 }
