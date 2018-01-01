@@ -1,3 +1,6 @@
+.mobile{
+display: none;  
+}
 .jumbotron {
     position: relative;
     background-image:url('../img/headerWood.jpg');
@@ -126,6 +129,18 @@ iframe{
   overflow:hidden;
   background-image:url('../img/uploadIcon.png');
   background-size: cover;
+}
+#searchRecipe {
+  justify-content: center;
+  margin-top: 8%;
+  padding: 0;
+  width: 45%;
+  height:0;
+  padding-top: 45%;
+  border-radius: 50%;
+  overflow:hidden;
+  background-image:url('../img/searchIcon.png');
+  background-size: cover;
 
 }
 
@@ -135,7 +150,9 @@ iframe{
 #inputFile:hover {
   background-image:url('../img/uploadIconHover.png');
 }
-
+#searchRecipe:hover {
+  background-image:url('../img/searchIconHover.png');
+}
 /*iphone showed a play button in the middle of the player, and the below css will remove that play button to display the pictures properly*/
 *::-webkit-media-controls-start-playback-button {
   display: none!important;
@@ -156,8 +173,22 @@ cursor: pointer;
 }
 
 @media only screen 
-and (min-device-width : 360px) 
+and (min-device-width : 100px) 
 and (max-device-width : 667px) {
+.desktop{
+display: none;
+}
+.mobile{
+display: block;  
+}
+#inputFile {
+  background-image:url('../img/cameraCapture.png');
+  position:relative;
+  text-align: center;
+}
+#inputFile:hover {
+  background-image:url('../img/cameraCaptureHover.png');
+}
 /*.hideOnMobileDiv{display: none;}*/
 #capture{display: none;}
 #openCamera{display: none;}

@@ -13,7 +13,15 @@ var ingredientList = [];
 var imageToUse;
 var globalReference; // global firebase yummly database used in addYummly() addToDataBase(lastLayer.class, globalReference);
 
+// Initialize tooltip component
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 
+// Initialize popover component
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
 //======================Initialize Firebase=========================//
 //==================================================================//
 var config = {
@@ -94,10 +102,9 @@ function addYummly()
 //==================================================================================================================//
 function createListResponses(listData)
 {
-  $('.table').html("");
-  $('#possibleResults').append("<table class='table table-hover'><thead><tr><th scope='col'>#</th><th scope='col'>Possible Matches</th><th scope='col'>Add Ingredient</th></tr></thead><tbody class='ingTable'>");
-  var addImageIcon = '<img class="addIcon" src="assets/img/addToList.png">';
-  var getInfoIcon = '<img class="getInfo" src="assets/img/infoIcon.png">'
+  $("<div class='col-md-6'><table class='table table-hover'><thead><tr><th scope='col'>#</th><th scope='col'>Possible Matches</th><th scope='col'>Add Ingredient</th></tr></thead><tbody class='ingTable'>").insertBefore($(".wikipedia"));
+  var addImageIcon = '<img class="addIcon" src="assets/img/addToList.png" data-toggle="tooltip" data-placement="top" title="Click to add this ingredient">';
+  var getInfoIcon = '<img class="getInfo" src="assets/img/infoIcon.png" data-toggle="tooltip" data-placement="top" title="Click for more information">';
   for (var i =0; i<listData.length; i++)
   {
     $(".ingTable").append("<tr class='"+ listData[i].class+ "'><th scope='row'>"+ (i+1) +"</th><td>" + listData[i].class + "</td><td class='optionImages'>" + addImageIcon  + getInfoIcon + "</td></tr>");
@@ -135,15 +142,20 @@ function addButton(goodData2)
   finalIngredientList.push(goodData2); // thia line is pushing the last scanned image keyword, the spaces will be replaced with a '_'
   
   console.log(" list of ingredients" + finalIngredientList);
-  $("#ingredientList").append('<button'+ ' id="' + buttonName + '"' +' class="btn btn-' + buttonColors[color]+ ' m-3">' + buttonName +'</button>')
-  color++;
-  if (color === 7)
-  {
-    color=0;
-  }
+   // line below will create  button
+  // $("#ingredientList").append('<button'+ ' id="' + buttonName + '"' +' class="btn btn-' + buttonColors[color]+ ' m-3">' + buttonName +'</button>')
+  // color++;
+  // if (color === 7)
+  // {
+  //   color=0;
+  // }
+  
+  // line below will create a list of items instead of buttons
+  //$("#ingredientList").append('<a href="" class="list-group-item list-group-item-action" id="' +buttonName +'">'+ buttonName +'</a>');
+  $('<a class="list-group-item list-group-item-action" id="' +buttonName +'">'+ buttonName +'</a>').insertBefore($(".searchRecipeButton"));
+
   wikipedia(goodData2); // this will send the search word to wikipedia API and display the information Properly
   $("#ingredientList").show();
-  mainYummly(finalIngredientList);
 }
 
 
@@ -587,7 +599,6 @@ $("document").ready(function()
       console.log("you clicked img" + clickedResponse); // get the class which is the keyword
       //wikipedia(clickedResponse);
       addToDataBase(clickedResponse, globalReference);
-
     }
   });
   //event.preventDefault();
@@ -600,6 +611,8 @@ $("document").ready(function()
   //$("#player").hide();
   $('input[type=file]').on("change", function() 
   {
+    $('.table').parent().remove();
+    $("#possibleResults").hide();
     $("#loadingImage").show();
     //event.preventDefault();
     var files = $(this).get(0).files;
@@ -623,6 +636,10 @@ $("document").ready(function()
   {
     $("#loadingImage").hide();
     addYummly();
+  });
+
+  $("#searchRecipe").on('click' , function(){
+  mainYummly(finalIngredientList);
   });
 
 });
