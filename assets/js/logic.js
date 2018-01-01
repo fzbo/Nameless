@@ -619,7 +619,7 @@ $("document").ready(function()
     console.log(files);
     imgurUpload(files);
     var files = 0;
-    document.getElementById("imgur").reset();
+    $( "input:reset" ).trigger( "click" )
   });
 
   $("#refreshbutton").on('click', function()

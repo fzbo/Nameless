@@ -127,10 +127,9 @@ iframe{
   padding-top: 45%;
   /*padding-bottom: -100%;*/
   border-radius: 100%;
-  overflow:hidden;
+  overflow:auto;
   background-image:url('../img/uploadIcon.png');
   background-size: cover;
-  border: none;
 }
 #searchRecipe {
   justify-content: center;
