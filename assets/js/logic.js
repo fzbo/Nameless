@@ -211,10 +211,9 @@ function imgurUpload($files)
       console.log(imageToUse);
       firebase.database().ref().child('node-client').child('images').child('TestingImage').set(imageToUse);
       console.log(JSON.parse(response).data.link);
+      $( ".resetThumbnail" ).trigger( "click" ); // reset input thumbnail in mobile devices
     });
   }
-
-  $( "input:reset" ).trigger( "click" ); // reset input thumbnail in mobile devices
 }
 
 //===============Upload to Imgur Picture from Camera starts here ==============//
