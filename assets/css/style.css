@@ -118,18 +118,19 @@ iframe{
 
 }
 
-/*#inputFile {
+#inputFile {
   justify-content: center;
   margin-top: 8%;
   padding: 0;
   width: 45%;
   height:0;
   padding-top: 45%;
+  /*padding-bottom: -100%;*/
   border-radius: 100%;
   overflow:auto;
   background-image:url('../img/uploadIcon.png');
   background-size: cover;
-}*/
+}
 #searchRecipe {
   justify-content: center;
   margin-top: 8%;
@@ -175,12 +176,12 @@ cursor: pointer;
 @media only screen 
 and (min-device-width : 100px) 
 and (max-device-width : 667px) {
-/*.desktop{
+.desktop{
 display: none;
 }
-*//*.mobile{
+.mobile{
 display: block;  
-}*/
+}
 #inputFile {
   background-image:url('../img/cameraCapture.png');
   position:relative;

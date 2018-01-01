@@ -214,7 +214,7 @@ function imgurUpload($files)
     });
   }
 
-  
+  $( "input:reset" ).trigger( "click" ); // reset input thumbnail in mobile devices
 }
 
 //===============Upload to Imgur Picture from Camera starts here ==============//
@@ -619,7 +619,6 @@ $("document").ready(function()
     console.log(files);
     imgurUpload(files);
     var files = 0;
-    $( "input:reset" ).trigger( "click" )
   });
 
   $("#refreshbutton").on('click', function()
