@@ -125,7 +125,7 @@ iframe{
   background-image:url('../img/uploadIcon.png');
   background-size: contain;
 }
-#searchRecipe {
+/*#searchRecipe {
   justify-content: center;
   margin-top: 8%;
   padding: 0;
@@ -137,6 +137,15 @@ iframe{
   background-image:url('../img/searchIcon.png');
   background-size: contain;
 
+}*/
+
+#searchRecipe {
+    width: 40%;
+    padding: 20%;
+    border-radius: 100%;
+    overflow: hidden;
+    background-image: url(../img/searchIcon.png);
+    background-size: contain;
 }
 
 #capture:hover {
