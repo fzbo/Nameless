@@ -375,6 +375,8 @@ function mainYummly(foodImageItem)
   //*************************** URL concatenation ***************************
   var queryURL = "https://api.yummly.com/v1/api/" + queryRecipe + monkeyPaw + finalQuery;
   // function imageSearchInfo(){} <<<<<<<<<< may need to put inside another function? <<<<<<<<<<
+ //http://api.yummly.com/v1/api/recipe/Pink-Dragon-Fruit-Soda-574237?_app_id=12dafe86&_app_key=12dafe86&_app_key=ba62bbc8677a60fac1bc16abe00dbf86
+
   $.ajax({ url: queryURL, method: "GET" }).done(function(response) 
   {
     var results = response;
@@ -383,39 +385,58 @@ function mainYummly(foodImageItem)
     var ingLength = results.matches;
     for (var i=0; i<ingLength.length;i++)
     {
-      var ingredients = results.matches[i].ingredients; // zero for first recipe only
-      var recipePicture = results.matches[i].imageUrlsBySize[90];
-      var title = results.matches[i].recipeName;
-      var id = results.matches[i].id;
-      console.log(recipePicture);
-      createRecipeList(ingredients, recipePicture,title,id,i);
+    ajaxWaitResponse(results, i, monkeyPaw);
     }
   });
 }
 
+//====================== Function will wait for Ajax Response to start creating recipe list ===================//
+//=============================================================================//
+function ajaxWaitResponse(results, i , monkeyPaw)
+{
+  var ingredients = results.matches[i].ingredients; // zero for first recipe only
+  var title = results.matches[i].recipeName;
+  var id = results.matches[i].id;
+  var queryRecipeDetail = 'http://api.yummly.com/v1/api/recipe/'+ id +'?' + monkeyPaw;
+  $.ajax({ url: queryRecipeDetail, method: "GET" }).done(function(response) 
+  {
+  console.log(response.ingredientLines);
+
+  createRecipeList(response.ingredientLines, response.images[0].hostedLargeUrl,title,response.source.sourceRecipeUrl,i);
+  });
+}
 
 //====================== Create Recipe Divs Function Starts here ===================//
 //=============================================================================//
-function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
+function createRecipeList(ingredients,recipePicture, title, steps,counterForRecipe)
 {
   //holder-recipe
   console.log("inside the method!!");
-  var divToCreate = $("#yummlyIngredientList").append( "<div class='col-md-6 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
-  "</div>"+
-  "</div>"+
-  "</div>");
-  console.log(divToCreate);
-  $("#recipe"+counterForRecipe).append("<H4>"+ title +"</H4>");
-  $("#recipe"+counterForRecipe).append("<p>https://www.yummly.com/#recipe/"+ id +"</p>");
-  $("#recipe"+counterForRecipe).append("<img src='"+recipePicture + "''>");
+  // var divToCreate = $("#yummlyIngredientList").append( "<div class='col-md-6 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
+  // "</div>"+
+  // "</div>"+
+  // "</div>");
+
+
+  var recipeImage = '<div col-md-12><img class="card-img-top col-sm-8" src="'+ recipePicture + '" alt="Card image cap"></div>'
+  var recipeTitle = '<div class="card-header"><h2>' + title + '</h2></div>';
+  var recipeIngredients = '<p class="card-text" id="recipe'+counterForRecipe+'">';
+  var recipeSteps = '<div class="card-footer"><a href="'+ steps +'" class="btn btn-primary" target="_blank">Click for your recipe Steps</a></div>'
+  var divToCreate = $("#yummlyIngredientList").append('<div class="card col-md-12 text-white bg-dark mb-3 p-0 text-center">'+recipeTitle + recipeImage +'<div class="card-body">' +recipeIngredients + '</div>' +recipeSteps);
+
+
+  // console.log(divToCreate);
+  // $("#recipe"+counterForRecipe).append("<H4>"+ title +"</H4>");
+  // $("#recipe"+counterForRecipe).append("<p>https://www.yummly.com/#recipe/"+ id +"</p>");
+  // $("#recipe"+counterForRecipe).append("<img src='"+recipePicture + "''>");
   for (var i =0;i< ingredients.length;i++)
   {
-    $("#recipe"+counterForRecipe).append("<span>" +ingredients[i] +"</span> </br>");
+    $("#recipe"+counterForRecipe).append("<span><h3>" +ingredients[i] +"<h3></span> </br>");
   }
-  $("#yummlyIngredientList").append( "<div class='col-md-6 dup holderRecipe' >"+ '<iframe src="'+ 'https:\/\/www.yummly.com\/#recipe\/'+ id +'"></iframe>'+
-  "</div>"+
-  "</div>"+
-  "</div>");
+  // $("#yummlyIngredientList").append( "<div class='col-md-6 dup holderRecipe' >"+ '<iframe src="'+ 'https:\/\/www.yummly.com\/#recipe\/'+ id +'"></iframe>'+
+  // "</div>"+
+  // "</div>"+
+  // "</div>");
 }
 
 //===================drop_handler will send dropped image information into imgurUpload function ===  ==============//
@@ -639,11 +660,11 @@ $("document").ready(function()
   });
 
   $("#searchRecipe").on('click' , function(){
+  $('#yummlyIngredientList').html("");  
   mainYummly(finalIngredientList);
   });
 
 });
 //====================== Main Program Ends Here ====================//
 //==================================================================//
-
 
