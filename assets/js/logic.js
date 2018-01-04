@@ -397,7 +397,7 @@ function ajaxWaitResponse(results, i , monkeyPaw)
   var ingredients = results.matches[i].ingredients; // zero for first recipe only
   var title = results.matches[i].recipeName;
   var id = results.matches[i].id;
-  var queryRecipeDetail = 'http://api.yummly.com/v1/api/recipe/'+ id +'?' + monkeyPaw;
+  var queryRecipeDetail = 'https://api.yummly.com/v1/api/recipe/'+ id +'?' + monkeyPaw;
   $.ajax({ url: queryRecipeDetail, method: "GET" }).done(function(response) 
   {
   console.log(response.ingredientLines);
