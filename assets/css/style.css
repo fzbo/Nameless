@@ -228,6 +228,10 @@ height: 4vh; width: 4vh; object-fit: contain;
     line-height: 1.5;
     border-radius: 4.3rem;
 }
+.col-sm-8 {
+    flex: 0 0 66.666667%;
+    max-width: 100%;
+}
 td{
     font-size: 1.75rem;
 }
