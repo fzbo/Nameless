@@ -36,7 +36,11 @@ var visual_recognition = watson.visual_recognition({
    
 
 var params = {
-  parameters: {'url':images}
+  parameters: 
+  {
+    'url':images,
+    'classifier_ids': ["Buddhaxshand_1013586818","default"]
+  }
 };
 
 

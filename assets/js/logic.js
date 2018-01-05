@@ -11,8 +11,17 @@ var buttonColors = ["primary","secondary","success","danger","warning","info","l
 var color = 0;
 var ingredientList = [];
 var imageToUse;
+var globalReference; // global firebase yummly database used in addYummly() addToDataBase(lastLayer.class, globalReference);
 
+// Initialize tooltip component
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 
+// Initialize popover component
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
 //======================Initialize Firebase=========================//
 //==================================================================//
 var config = {
@@ -71,7 +80,8 @@ function addYummly()
     console.log(Object.values(snap.val()));
     y=snap.val().images[0].classifiers[0].classes;
     lastLayer= y[0];
-    console.log("Watson information : ", lastLayer);
+    createListResponses(y);
+    console.log("Watson information : "+ lastLayer + " "+ y.length);
     var valueDataBase;  
     ref.child('images').child('TestingImage').once("value",function(snapData){
       valueDataBase =snapData.val();
@@ -80,14 +90,30 @@ function addYummly()
       if (valueDataBase === imageToUse)
       {  
         console.log("inside if");
-        addToDataBase(lastLayer.class, ref);
+        globalReference = ref;
+       // addToDataBase(lastLayer.class, ref);
         counterToAddData = 0 ;
       }
     });
   });
 }
 
+//==================This function will show all the possible watson responses in a list where the user will later pick=========//
+//==================================================================================================================//
+function createListResponses(listData)
+{
+  $("<div class='col-md-6'><table class='table table-hover'><thead><tr><th scope='col'>#</th><th scope='col'>Possible Matches</th><th scope='col'>Add Ingredient</th></tr></thead><tbody class='ingTable'>").insertBefore($(".wikipedia"));
+  var addImageIcon = '<img class="addIcon" src="assets/img/addToList.png" data-toggle="tooltip" data-placement="top" title="Click to add this ingredient">';
+  var getInfoIcon = '<img class="getInfo" src="assets/img/infoIcon.png" data-toggle="tooltip" data-placement="top" title="Click for more information">';
+  for (var i =0; i<listData.length; i++)
+  {
+    $(".ingTable").append("<tr class='"+ listData[i].class+ "'><th scope='row'>"+ (i+1) +"</th><td>" + listData[i].class + "</td><td class='optionImages'>" + addImageIcon  + getInfoIcon + "</td></tr>");
+  }
+  $("#possibleResults").show();
+}
 
+
+//===================THIS FUNCTION WILL BE TAKEN OUT OF THE CODE WITH THE NEW APP FUNCTIONALITY ====================//
 //==================This function will add the watson responses to a local Array and pass it to  addButton =========//
 //==================================================================================================================//
 function addToDataBase(goodData1, ref1)
@@ -116,15 +142,20 @@ function addButton(goodData2)
   finalIngredientList.push(goodData2); // thia line is pushing the last scanned image keyword, the spaces will be replaced with a '_'
   
   console.log(" list of ingredients" + finalIngredientList);
-  $("#ingredientList").append('<button'+ ' id="' + buttonName + '"' +' class="btn btn-' + buttonColors[color]+ ' m-3">' + buttonName +'</button>')
-  color++;
-  if (color === 7)
-  {
-    color=0;
-  }
+   // line below will create  button
+  // $("#ingredientList").append('<button'+ ' id="' + buttonName + '"' +' class="btn btn-' + buttonColors[color]+ ' m-3">' + buttonName +'</button>')
+  // color++;
+  // if (color === 7)
+  // {
+  //   color=0;
+  // }
+  
+  // line below will create a list of items instead of buttons
+  //$("#ingredientList").append('<a href="" class="list-group-item list-group-item-action" id="' +buttonName +'">'+ buttonName +'</a>');
+  $('<a class="list-group-item list-group-item-action" id="' +buttonName +'">'+ buttonName +'</a>').insertBefore($(".searchRecipeButton"));
+
   wikipedia(goodData2); // this will send the search word to wikipedia API and display the information Properly
   $("#ingredientList").show();
-  mainYummly(finalIngredientList);
 }
 
 
@@ -180,10 +211,9 @@ function imgurUpload($files)
       console.log(imageToUse);
       firebase.database().ref().child('node-client').child('images').child('TestingImage').set(imageToUse);
       console.log(JSON.parse(response).data.link);
+      //document.getElementById("imgur").reset();// reset input thumbnail in mobile devices
     });
   }
-
-  
 }
 
 //===============Upload to Imgur Picture from Camera starts here ==============//
@@ -316,6 +346,7 @@ function wikipedia(keyword)
       counterToAddData= 0; // reset button counter
     },
     error: function (errorMessage) {
+      $(".wikipediaYummly").hide(); // hide wikipedia when no data is found for clicked item
     }
   });  
 }       
@@ -344,6 +375,8 @@ function mainYummly(foodImageItem)
   //*************************** URL concatenation ***************************
   var queryURL = "https://api.yummly.com/v1/api/" + queryRecipe + monkeyPaw + finalQuery;
   // function imageSearchInfo(){} <<<<<<<<<< may need to put inside another function? <<<<<<<<<<
+ //http://api.yummly.com/v1/api/recipe/Pink-Dragon-Fruit-Soda-574237?_app_id=12dafe86&_app_key=12dafe86&_app_key=ba62bbc8677a60fac1bc16abe00dbf86
+
   $.ajax({ url: queryURL, method: "GET" }).done(function(response) 
   {
     var results = response;
@@ -352,39 +385,58 @@ function mainYummly(foodImageItem)
     var ingLength = results.matches;
     for (var i=0; i<ingLength.length;i++)
     {
-      var ingredients = results.matches[i].ingredients; // zero for first recipe only
-      var recipePicture = results.matches[i].imageUrlsBySize[90];
-      var title = results.matches[i].recipeName;
-      var id = results.matches[i].id;
-      console.log(recipePicture);
-      createRecipeList(ingredients, recipePicture,title,id,i);
+    ajaxWaitResponse(results, i, monkeyPaw);
     }
   });
 }
 
+//====================== Function will wait for Ajax Response to start creating recipe list ===================//
+//=============================================================================//
+function ajaxWaitResponse(results, i , monkeyPaw)
+{
+  var ingredients = results.matches[i].ingredients; // zero for first recipe only
+  var title = results.matches[i].recipeName;
+  var id = results.matches[i].id;
+  var queryRecipeDetail = 'https://api.yummly.com/v1/api/recipe/'+ id +'?' + monkeyPaw;
+  $.ajax({ url: queryRecipeDetail, method: "GET" }).done(function(response) 
+  {
+  console.log(response.ingredientLines);
+
+  createRecipeList(response.ingredientLines, response.images[0].hostedLargeUrl,title,response.source.sourceRecipeUrl,i);
+  });
+}
 
 //====================== Create Recipe Divs Function Starts here ===================//
 //=============================================================================//
-function createRecipeList(ingredients,recipePicture, title,id,counterForRecipe)
+function createRecipeList(ingredients,recipePicture, title, steps,counterForRecipe)
 {
   //holder-recipe
   console.log("inside the method!!");
-  var divToCreate = $("#yummlyIngredientList").append( "<div class='col-md-6 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
-  "</div>"+
-  "</div>"+
-  "</div>");
-  console.log(divToCreate);
-  $("#recipe"+counterForRecipe).append("<H4>"+ title +"</H4>");
-  $("#recipe"+counterForRecipe).append("<p>https://www.yummly.com/#recipe/"+ id +"</p>");
-  $("#recipe"+counterForRecipe).append("<img src='"+recipePicture + "''>");
+  // var divToCreate = $("#yummlyIngredientList").append( "<div class='col-md-6 dup holderRecipe' id='recipe"+counterForRecipe+"'>"+
+  // "</div>"+
+  // "</div>"+
+  // "</div>");
+
+
+  var recipeImage = '<div col-md-12><img class="card-img-top col-sm-8" src="'+ recipePicture + '" alt="Card image cap"></div>'
+  var recipeTitle = '<div class="card-header"><h2>' + title + '</h2></div>';
+  var recipeIngredients = '<p class="card-text" id="recipe'+counterForRecipe+'">';
+  var recipeSteps = '<div class="card-footer"><a href="'+ steps +'" class="btn btn-primary" target="_blank">Click for your recipe Steps</a></div>'
+  var divToCreate = $("#yummlyIngredientList").append('<div class="card col-md-12 text-white bg-dark mb-3 p-0 text-center">'+recipeTitle + recipeImage +'<div class="card-body">' +recipeIngredients + '</div>' +recipeSteps);
+
+
+  // console.log(divToCreate);
+  // $("#recipe"+counterForRecipe).append("<H4>"+ title +"</H4>");
+  // $("#recipe"+counterForRecipe).append("<p>https://www.yummly.com/#recipe/"+ id +"</p>");
+  // $("#recipe"+counterForRecipe).append("<img src='"+recipePicture + "''>");
   for (var i =0;i< ingredients.length;i++)
   {
-    $("#recipe"+counterForRecipe).append("<span>" +ingredients[i] +"</span> </br>");
+    $("#recipe"+counterForRecipe).append("<span><h3>" +ingredients[i] +"<h3></span> </br>");
   }
-  $("#yummlyIngredientList").append( "<div class='col-md-6 dup holderRecipe' >"+ '<iframe src="'+ 'https:\/\/www.yummly.com\/#recipe\/'+ id +'"></iframe>'+
-  "</div>"+
-  "</div>"+
-  "</div>");
+  // $("#yummlyIngredientList").append( "<div class='col-md-6 dup holderRecipe' >"+ '<iframe src="'+ 'https:\/\/www.yummly.com\/#recipe\/'+ id +'"></iframe>'+
+  // "</div>"+
+  // "</div>"+
+  // "</div>");
 }
 
 //===================drop_handler will send dropped image information into imgurUpload function ===  ==============//
@@ -481,6 +533,7 @@ function previewfile(file)
     reader.onload = function (event) 
     {
       var image = new Image();
+      var blah = document.getElementById('player')
       blah.poster = event.target.result;
       //blah.width = 250; // a fake resize
     }; reader.readAsDataURL(file);
@@ -549,7 +602,27 @@ function readURL(input)
 mainDragnDrop();
 $("document").ready(function() 
 {
+  $("#possibleResults").on('click', ".getInfo",function(){
+    var clickedResponse = $(this).parent().parent().attr('class');
+    if (clickedResponse != undefined)
+    {
+      console.log("you clicked row" + clickedResponse); // get the class which is the keyword
+      wikipedia(clickedResponse);
+      // addToDataBase(clickedResponse, globalReference);
+
+    }
+  });
+    $("#possibleResults").on('click', ".addIcon",function(){
+    var clickedResponse = $(this).parent().parent().attr('class');
+    if (clickedResponse != undefined)
+    {
+      console.log("you clicked img" + clickedResponse); // get the class which is the keyword
+      //wikipedia(clickedResponse);
+      addToDataBase(clickedResponse, globalReference);
+    }
+  });
   //event.preventDefault();
+  $("#possibleResults").hide();
   $("#ingredientList").hide();
   $(".wikipediaYummly").hide();
   $("canvas").hide();
@@ -558,11 +631,14 @@ $("document").ready(function()
   //$("#player").hide();
   $('input[type=file]').on("change", function() 
   {
+    $('.table').parent().remove();
+    $("#possibleResults").hide();
     $("#loadingImage").show();
     //event.preventDefault();
     var files = $(this).get(0).files;
     console.log(files);
     imgurUpload(files);
+    //document.getElementById("imgur").reset();// reset input thumbnail in mobile devices
     var files = 0;
   });
 
@@ -583,8 +659,12 @@ $("document").ready(function()
     addYummly();
   });
 
+  $("#searchRecipe").on('click' , function(){
+  $('#yummlyIngredientList').html("");  
+  mainYummly(finalIngredientList);
+  });
+
 });
 //====================== Main Program Ends Here ====================//
 //==================================================================//
-
 
