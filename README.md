@@ -6,7 +6,7 @@ Application provides a simple user interface that allows the user to drag and dr
 ![wtflogo](https://user-images.githubusercontent.com/30742763/34657108-f5b8c356-f3f0-11e7-8af9-a6146365df2c.jpg)
 
 
-#### What are the features, advantages and benefits of using WTF?
+### What are the features, advantages and benefits of using WTF?
 
 1. **Feature**: Having the freedom of being able to find recipes on the go when your out and about.
 
