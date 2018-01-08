@@ -1,5 +1,6 @@
 # Nameless
-Project #1-What The Fork
+
+# Project #1-What The Fork
 
 What The Fork is a user friendly application that allows anyone to prepare meals like a chef on the go.
 Application provides a simple user interface that allows the user to drag and drop a photo of ingredients. API technologies will output to the user information regarding the ingredients along with recipes. Why is this important and how can someone benefit from using WTF.
