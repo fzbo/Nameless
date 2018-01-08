@@ -7,22 +7,22 @@ What are the features, advantages and benefits of using WTF?
 
 1. **Feature**: Having the freedom of being able to find recipes on the go when your out and about.
 
-2. **Advantag**: You can take a picture of anything and on the spot get information specific to your photo.
+2. **Advantage**: You can take a picture of anything and on the spot get information specific to your photo.
 
 3. **Benefit**: Instead to doing random searches looking for ingredients and recipes, What The Targets your photo by only generating information based on photo submitted.
 
 
 ## Technical Specs
 
-•	Watson Visual Recognition API: Understands the contents of images. Watson analyzes images for scenes, objects, faces, colors, food and    other subjects that can give you insights into the visual content. Watson will index it's search by assigning a confidence rating. The higher the rating, the more accurate the recognition is.
+•	**Watson Visual Recognition API**: Understands the contents of images. Watson analyzes images for scenes, objects, faces, colors, food and    other subjects that can give you insights into the visual content. Watson will index it's search by assigning a confidence rating. The higher the rating, the more accurate the recognition is.
 
-•	Yummly Recipe API: This API lets you integrate recipes and faceted recipe search into your website.
+•	**Yummly Recipe API**: This API lets you integrate recipes and faceted recipe search into your website.
 
-•	Wikipedia API: Once the user drags and drops photo, Wikipedia will output information regarding photo content.
+• **Wikipedia API**: Once the user drags and drops photo, Wikipedia will output information regarding photo content.
 
-•	Node.js
+•	**Node.js**
 
-•	AJAX
+•	**AJAX**
 
-•	Imgur API
+•	**Imgur API**
 
