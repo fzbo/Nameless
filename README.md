@@ -28,3 +28,5 @@ For more information please visit www.ibm.com/watson/services/visual-recognition
 
 •	**Imgur API**
 
+ ####        Creators and Collaborators: Alex Lizarraga, Elizabeth Bazan, Charlie Caldwell, Chris Fennessy
+
