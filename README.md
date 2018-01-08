@@ -17,6 +17,7 @@ What are the features, advantages and benefits of using WTF?
 •	**Watson Visual Recognition API**: Understands the contents of images. Watson analyzes images for scenes, objects, faces, colors, food and    other subjects that can give you insights into the visual content. Watson will index it's search by assigning a confidence rating. The higher the rating, the more accurate the recognition is.
 
 •	**Yummly Recipe API**: This API lets you integrate recipes and faceted recipe search into your website.
+  For more information please visit www.yummly.com.
 
 • **Wikipedia API**: Once the user drags and drops photo, Wikipedia will output information regarding photo content.
 
