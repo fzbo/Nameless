@@ -1,5 +1,3 @@
-# Nameless
-
 # Project #1-What The Fork
 
 What The Fork is a user friendly application that allows anyone to prepare meals like a chef on the go.
