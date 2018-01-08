@@ -29,7 +29,7 @@ For more information please visit www.ibm.com/watson/services/visual-recognition
 
 •	**AJAX**
 
-•	**Imgur API**
+•	**Imgur API** For more information please visit https://api.imgur.com/.
 
 
 
