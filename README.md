@@ -3,7 +3,10 @@
 What The Fork is a user friendly application that allows anyone to prepare meals like a chef on the go.
 Application provides a simple user interface that allows the user to drag and drop a photo of ingredients. API technologies will output to the user information regarding the ingredients along with recipes. Why is this important and how can someone benefit from using WTF.
 
-What are the features, advantages and benefits of using WTF?
+![wtflogo](https://user-images.githubusercontent.com/30742763/34657108-f5b8c356-f3f0-11e7-8af9-a6146365df2c.jpg)
+
+
+#### What are the features, advantages and benefits of using WTF?
 
 1. **Feature**: Having the freedom of being able to find recipes on the go when your out and about.
 
